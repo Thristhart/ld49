@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-areas: "game";
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    min-height: 100vh;
+}
+canvas {
+    grid-area: game;
+    width: 100%;
+    height: 100%;
+}
