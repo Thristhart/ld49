@@ -9,12 +9,210 @@
         "gameplay gameplay"
         "gameplay gameplay"
         "dialogue dialogue";
+
+    grid-template-rows: 1fr min-content;
 }
 #dialogue {
     grid-area: dialogue;
+    font-family: "Varela Round", sans-serif;
+    font-size: var(--dialogue-font-size);
+    margin-bottom: 2rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
 }
-#backdrop {
-    grid-row: 1 / -1;
-    grid-column: 1 / -1;
+
+#dialogue .message {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    background-image: url("./assets/Panel_Dialogue_no_arrow.png");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 1443/238;
+
+    max-width: 100rem;
+
+    font-weight: bold;
+
+    box-sizing: border-box;
+
+    position: relative;
+}
+.messageText {
+    display: flex;
+    position: absolute;
+
+    right: clamp(1rem, 2vw, 2rem);
+    left: clamp(1rem, 5vw, 5rem);
+    bottom: 3vw;
+    top: clamp(1rem, 4vw, 4rem);
+
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+
+#dialogue .speaker {
+    position: absolute;
+    top: -0.3em;
+    left: clamp(0.8rem, 10vw, 10rem);
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.1em;
+    padding-top: 0.1em;
+
+    animation: fadeIn 300ms linear forwards;
+}
+#dialogue .speaker.speakertag-right {
+    left: unset;
+    right: clamp(0.8rem, 10vw, 10rem);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.speaker-portrait {
+    display: block;
+    width: 24em;
+    height: 24em;
+
+    position: absolute;
+    top: -18em;
+
+    image-rendering: pixelated;
     z-index: -1;
+
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+
+.speaker-portrait.crow {
+    background-image: url("./assets/crow_sit_caw_strip12.png");
+    background-size: 1200%;
+    animation: twelveFrameAnimation 1s step-start;
+    animation-delay: 300ms;
+}
+
+.speaker-portrait.cat {
+    background-image: url("./assets/cat_idle_blink_strip8.png");
+    background-size: 800%;
+    animation: eightFrameAnimation 1s step-start;
+    animation-delay: 300ms;
+}
+.left-speaker {
+    left: -2em;
+}
+.right-speaker {
+    transform: scaleX(-1);
+    right: -2em;
+}
+
+@keyframes eightFrameAnimation {
+    0.00% {
+        background-position-x: 0%;
+    }
+    12.50% {
+        background-position-x: 14.29%;
+    }
+    25.00% {
+        background-position-x: 28.57%;
+    }
+    37.50% {
+        background-position-x: 42.86%;
+    }
+    50.00% {
+        background-position-x: 57.14%;
+    }
+    62.50% {
+        background-position-x: 71.43%;
+    }
+    75.00% {
+        background-position-x: 85.71%;
+    }
+    87.50% {
+        background-position-x: 100%;
+    }
+}
+
+@keyframes twelveFrameAnimation {
+    0.00% {
+        background-position-x: 0%;
+    }
+    8.33% {
+        background-position-x: 9.09%;
+    }
+    16.67% {
+        background-position-x: 18.18%;
+    }
+    25.00% {
+        background-position-x: 27.27%;
+    }
+    33.33% {
+        background-position-x: 36.36%;
+    }
+    41.67% {
+        background-position-x: 45.45%;
+    }
+    50.00% {
+        background-position-x: 54.55%;
+    }
+    58.33% {
+        background-position-x: 63.64%;
+    }
+    66.67% {
+        background-position-x: 72.73%;
+    }
+    75.00% {
+        background-position-x: 81.82%;
+    }
+    83.33% {
+        background-position-x: 90.91%;
+    }
+    91.67% {
+        background-position-x: 100%;
+    }
+}
+
+#dialogue .choices {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    justify-content: center;
+
+    flex-direction: column;
+    list-style: none;
+
+    position: absolute;
+    bottom: 8em;
+    left: 12em;
+
+    z-index: 1;
+
+    font-size: var(--dialogue-font-size);
+}
+
+#dialogue .choice {
+    font-size: var(--dialogue-font-size);
+    font-family: "Varela Round", sans-serif;
+    background-color: white;
+    outline: 2px solid white;
+    border: 2px solid black;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
 }

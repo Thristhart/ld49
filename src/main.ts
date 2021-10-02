@@ -1,4 +1,5 @@
 import { render } from "@render";
+import { continueStory } from "@story";
 import "@ui";
 import { renderUI } from "@ui";
 import "./style.css";
@@ -24,3 +25,5 @@ if (import.meta.hot) {
 requestAnimationFrame(render);
 
 renderUI();
+
+continueStory();

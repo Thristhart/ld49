@@ -11,6 +11,8 @@ if (import.meta.env.DEV) {
 
 export enum Speaker {
     None = "none",
+    Crow = "crow",
+    Cat = "cat",
 }
 
 export interface StoryMessage {
@@ -29,9 +31,10 @@ export interface StoryChoices {
     readonly choices: StoryChoice[];
 }
 
-type StoryBeat = StoryMessage | StoryChoices;
+export type StoryBeat = StoryMessage;
 
 const log: StoryBeat[] = [];
+const speakers: [Speaker?, Speaker?] = [];
 
 const SPEAKER_REGEX = /(\w+)(\$?):\s?(.*)/;
 
@@ -55,26 +58,51 @@ function parseCurrentText() {
     if (!current) {
         return;
     }
-    log.push({ ...getSpeaker(current), type: "message" });
+    if (story.currentTags && story.currentTags.length !== 0) {
+        story.currentTags.forEach((tag) => {
+            if (tag.startsWith("speaking:")) {
+                const newSpeakers = tag
+                    .split("speaking:")[1]
+                    .split(",")
+                    .map((speaker) => (speaker === "" ? undefined : speaker));
+                speakers[0] = newSpeakers[0] as Speaker;
+                speakers[1] = newSpeakers[1] as Speaker;
+            }
+        });
+    }
+    const currentSpeaker = getSpeaker(current);
+    if (currentSpeaker.speaker !== Speaker.None && !speakers.includes(currentSpeaker.speaker)) {
+        if (speakers[0]) {
+            speakers[1] = currentSpeaker.speaker;
+        } else {
+            speakers[0] = currentSpeaker.speaker;
+        }
+    }
+    log.push({ ...currentSpeaker, type: "message" });
 }
 
-export const getLog = () => log;
+let currentChoices: StoryChoices | undefined;
+
+export const getCurrentBeat = (): StoryBeat | undefined => log[log.length - 1];
+export const getCurrentSpeakers = () => speakers;
+export const getCurrentChoices = () => currentChoices;
+
 export const continueStory = () => {
     if (story.canContinue) {
         story.Continue();
         parseCurrentText();
         renderUI();
-    } else if (story.currentChoices.length > 0 && log[log.length - 1].type !== "choices") {
-        log.push({
+    } else if (story.currentChoices.length > 0 && !currentChoices) {
+        currentChoices = {
             type: "choices",
             choices: story.currentChoices.map((choice) => ({ ...getSpeaker(choice.text), index: choice.index })),
-        });
+        };
         renderUI();
     }
 };
 export const selectChoice = (choiceIndex: number) => {
     story.ChooseChoiceIndex(choiceIndex);
-    log.pop();
+    currentChoices = undefined;
     continueStory();
 };
 

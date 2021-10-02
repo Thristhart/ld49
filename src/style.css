@@ -7,6 +7,11 @@ body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     min-height: 100vh;
+
+    --dialogue-font-size: clamp(0.5rem, 2.3vw, 32px);
+    min-width: 640px;
+
+    background-color: black;
 }
 canvas {
     grid-area: game;
