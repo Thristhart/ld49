@@ -1,6 +1,8 @@
+import { shouldShowDialog } from "@story";
 import { Dialogue } from "@ui/Dialogue";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import { CombatLog } from "./CombatLog";
 import { RPG } from "./RPG";
 import "./ui.css";
 
@@ -17,7 +19,7 @@ const UI = () => {
     return (
         <>
             <RPG />
-            <Dialogue />
+            {shouldShowDialog() ? <Dialogue /> : <CombatLog />}
         </>
     );
 };

@@ -1,25 +1,12 @@
 import { useAction } from "@rpg/actions";
 import { currentCombat } from "@rpg/combat";
 import { EntityMap } from "@rpg/entities";
-import { Entity } from "@rpg/entity";
-import { CatPlayer } from "@rpg/players/cat";
-import { CrowPlayer } from "@rpg/players/crow";
+import { getEntityName } from "@rpg/entityName";
 import { getCurrentTurn } from "@rpg/turns";
 import cx from "classnames";
 import React, { useState } from "react";
 import "./CombatTeam.css";
 import { getCurrentTargeting, isTargeted, stopTargeting } from "./Targeting";
-
-function getEntityName(entity: Entity): string {
-    if (entity instanceof CatPlayer) {
-        return "cat";
-    }
-    if (entity instanceof CrowPlayer) {
-        return "crow";
-    }
-
-    return entity.constructor.name;
-}
 
 interface EntityCombatBoxProps {
     readonly id: string;

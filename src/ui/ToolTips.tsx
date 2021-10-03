@@ -1,9 +1,9 @@
 import { Action } from "@rpg/actions";
-import { Chilled, Freeze } from "@rpg/effects";
+import { Chilled, Effect, Freeze } from "@rpg/effects";
 import { EntityMap } from "@rpg/entities";
 import { Entity } from "@rpg/entity";
 import cx from "classnames";
-import React from "react";
+import React, { Fragment } from "react";
 import ReactTooltip, { TooltipProps } from "react-tooltip";
 import "./ToolTips.css";
 
@@ -51,6 +51,20 @@ const DamageBonus = ({ action, casterEntity }: DamageBonusProps) => {
     );
 };
 
+interface DamageExplanationTooltipProps {
+    readonly action: Action;
+    readonly casterEntity: Entity;
+    readonly extraId?: string;
+}
+export const DamageExplanationTooltip = ({ action, casterEntity, extraId = "" }: DamageExplanationTooltipProps) => {
+    return (
+        <Tooltip id={`action${action.id}${casterEntity.id}damage${extraId}`}>
+            {action.damage}
+            <DamageBonus action={action} casterEntity={casterEntity} />
+        </Tooltip>
+    );
+};
+
 interface ActionTooltipProps {
     readonly action: Action;
     readonly casterId: string;
@@ -61,7 +75,7 @@ interface ActionTooltipProps {
 export const ActionTooltip = ({ action, casterId }: ActionTooltipProps) => {
     const casterEntity = EntityMap.get(casterId)!;
     return (
-        <Tooltip id={`action${action.id}`} className="actionTooltip">
+        <Tooltip id={`action${action.id}${casterId}`} className="actionTooltip">
             <span className="rangeType">{action.range}</span>
             {action.damage && (
                 <>
@@ -73,23 +87,22 @@ export const ActionTooltip = ({ action, casterId }: ActionTooltipProps) => {
                         damage
                     </span>
 
-                    <Tooltip id={`action${action.id}${casterId}damage`}>
-                        {action.damage}
-                        <DamageBonus action={action} casterEntity={casterEntity} />
-                    </Tooltip>
+                    <DamageExplanationTooltip action={action} casterEntity={casterEntity} />
                 </>
             )}
             {action.effects && (
                 <span>
                     applies{" "}
                     {action.effects.map((effect) => (
-                        <span
-                            className={`effectTitle ${effect.name}`}
-                            key={effect.name}
-                            data-tip
-                            data-for={`${effect.name}Description`}>
-                            {effect.name}
-                        </span>
+                        <Fragment key={effect.name}>
+                            <span
+                                className={`effectTitle ${effect.name}`}
+                                data-tip
+                                data-for={`${effect.name}Description`}>
+                                {effect.name}
+                            </span>
+                            <EffectTooltip effect={effect} />
+                        </Fragment>
                     ))}
                 </span>
             )}
@@ -97,22 +110,33 @@ export const ActionTooltip = ({ action, casterId }: ActionTooltipProps) => {
     );
 };
 
-export const ToolTips = () => {
-    return (
-        <>
-            <Tooltip id={`ChilledDescription`} className="effectTooltip">
+interface EffectTooltipProps {
+    readonly effect: typeof Effect;
+    readonly extraId?: string;
+}
+export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
+    if (effect === Chilled) {
+        return (
+            <Tooltip id={`ChilledDescription${extraId}`} className="effectTooltip">
                 <span className="effectTitle Chilled">{Chilled.name}</span>
                 <p>
                     Lowers Speed. At three stacks, applies{" "}
-                    <span className="effectTitle Freeze" data-tip data-for="FreezeDescription">
+                    <span className="effectTitle Freeze" data-tip data-for={`FreezeDescription${extraId}`}>
                         Freeze
                     </span>
                 </p>
+                <EffectTooltip effect={Freeze} extraId={extraId} />
             </Tooltip>
-            <Tooltip id={`FreezeDescription`} className="effectTooltip">
+        );
+    }
+    if (effect === Freeze) {
+        return (
+            <Tooltip id={`FreezeDescription${extraId}`} className="effectTooltip">
                 <span className="effectTitle Freeze">{Freeze.name}</span>
                 <p>They're frozen</p>
             </Tooltip>
-        </>
-    );
+        );
+    }
+
+    return null;
 };

@@ -3,7 +3,6 @@ import React from "react";
 import { Actions } from "./Actions";
 import { CombatTeam } from "./CombatTeam";
 import "./RPG.css";
-import { ToolTips } from "./ToolTips";
 import { TurnTracker } from "./TurnTracker";
 
 export const RPG = () => {
@@ -17,7 +16,6 @@ export const RPG = () => {
             <CombatTeam side="left" />
             <Actions />
             <CombatTeam side="right" />
-            <ToolTips />
         </div>
     );
 };

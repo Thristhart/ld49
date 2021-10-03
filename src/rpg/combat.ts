@@ -1,4 +1,6 @@
 import { renderUI } from "@ui/ui";
+import { Action } from "./actions";
+import { Effect } from "./effects";
 import { Beholder } from "./enemies/beholder";
 import { EntityMap } from "./entities";
 import { Entity } from "./entity";
@@ -60,3 +62,18 @@ export function isAlly(a: string, b: string): boolean {
 export function isEnemy(a: string, b: string): boolean {
     return !isAlly(a, b);
 }
+
+export interface CombatLogEntry {
+    readonly actorId: string;
+    readonly action: Action;
+    readonly primaryTargetId: string;
+    readonly secondaryTargetIds?: string[];
+    readonly damageDealt?: number;
+    readonly effectsAdded?: typeof Effect[];
+}
+
+export const combatLog: CombatLogEntry[] = [];
+
+export const clearCombatLog = () => {
+    combatLog.splice(0);
+};

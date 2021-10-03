@@ -16,7 +16,7 @@ const ActionButton = ({ action, casterId }: ActionButtonProps) => {
             <button
                 className="actionButton"
                 data-tip
-                data-for={`action${action.id}`}
+                data-for={`action${action.id}${casterId}`}
                 data-place="right"
                 disabled={!!getCurrentTargeting()}
                 onClick={() => startTargeting(action, casterId)}>

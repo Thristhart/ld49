@@ -47,6 +47,9 @@
 .initiativePortrait.isCurrentTurn {
     border-radius: 0;
 }
+.initiativePortrait.isRight {
+    transform: scaleX(-1);
+}
 .waitTime {
     color: white;
     position: absolute;

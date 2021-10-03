@@ -1,3 +1,4 @@
+import { currentCombat } from "@rpg/combat";
 import { EntityMap } from "@rpg/entities";
 import { getTurns } from "@rpg/turns";
 import cx from "classnames";
@@ -23,7 +24,11 @@ const TurnItem = ({ entityId, index }: InitiativeItemProps) => {
                 style={{
                     backgroundImage: `url(${entity.portraitUrl})`,
                 }}
-                className={cx("initiativePortrait", index === 0 && "isCurrentTurn")}
+                className={cx(
+                    "initiativePortrait",
+                    index === 0 && "isCurrentTurn",
+                    currentCombat?.rightSide.includes(entityId) && "isRight"
+                )}
             />
             <span className="waitTime">{entity.waitTime}</span>
         </li>

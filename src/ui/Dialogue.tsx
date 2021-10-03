@@ -4,7 +4,6 @@ import {
     getCurrentChoices,
     getCurrentSpeakers,
     selectChoice,
-    shouldShowDialog,
     Speaker,
     StoryBeat,
     StoryChoices,
@@ -88,10 +87,6 @@ const Speakers = () => {
 };
 
 export const Dialogue = () => {
-    const shouldShow = shouldShowDialog();
-    if (!shouldShow) {
-        return null;
-    }
     const storyBeat = getCurrentBeat();
 
     return (

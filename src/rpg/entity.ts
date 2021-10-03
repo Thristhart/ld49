@@ -67,6 +67,7 @@ export abstract class Entity {
             amount *= Math.floor((30 - this.strength) / 30);
         }
         this.changeHealth(-amount);
+        return amount;
     }
 
     heal(amount: number) {

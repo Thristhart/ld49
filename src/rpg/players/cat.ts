@@ -15,12 +15,11 @@ const iceKnife: Action = {
         filter: "enemy",
     },
 };
-const blink: Action = { id: "blink", name: "Blink", range: "ranged", targeting: { type: "all", filter: "enemy" } };
 
 export class CatPlayer extends Player {
     public id: string = "cat";
     public portraitUrl = portrait_url;
-    public actions = [iceKnife, blink];
+    public actions = [iceKnife];
     public health = 30;
     public precision = 5;
 }

@@ -10,21 +10,22 @@ Combats n Conversations
 
 ## Mechanical
 
--   What is an Action? (Damage/Healing, Buffs/Debuffs: [], Wait Time, Targeting)
+-   What is an Action? (Damage/Healing, Buffs/Debuffs: [], Wait Time, Targeting, Instability Change, Melee/Ranged-ness)
     -   Are there Damage Types?
     -   Or fuck, are there positions here? (Nah)
     -   What is a combo? Status Effects with triggers.
     -   What is a round? No real thing here?
         -   What is a turn order? A dynamic list that updates after every turn, shifting the last player down based on their speed and the action chosen.
-    -   What limits ability usage? (Mana? PP? Turn-based Cooldowns?) (Fuck Mana)
+    -   What limits ability usage? (Mana? PP? Turn-based Cooldowns?) (Turn-based Cooldowns)
 -   Stats
     -   Health
-    -   SPD = Acc + Eva + Initiative
-    -   STR = Melee Damage + Melee CD + Melee Resistance
-    -   PRE(Precision) = ACC + Ranged Damage + Status Effectiveness increase.
-    -   UNP(Unpredictability) = Instability Table Bonus + Eva + Cooldown Reduction + Instability Gain Increase
-    -   SRD(Sturdiness) = Instability Gain Reduction + Damage Reduction + Resistance to Debuffs
-    -   UTB(Untiltability) (CHL(Chill)) = Instability Table Roll Manipulation + Instability Effect Multiplier + Status Effect Duration Reduction (Pos + Neg) (Multiplies duration by a percentage and then floors it)
+    -   Player Stats:
+        -   SPD = Acc + Eva + Cooldown Reduction + Initial Initiative
+        -   STR = Melee Damage + Melee CD + Melee Resistance
+        -   PRE(Precision) = ACC + Ranged Damage + Status Effectiveness increase.
+        -   UNP(Unpredictability) = Instability Table Bonus + Eva + Cooldown Reduction + Instability Gain Increase
+        -   SRD(Sturdiness) = Instability Gain Reduction + Damage Reduction + Resistance to Debuffs
+        -   UTB(Untiltability) = Instability Table Roll Manipulation + Instability Effect Multiplier + Status Effect Duration Reduction (Pos + Neg) (Multiplies duration by a percentage and then floors it)
 
 ## Important
 
@@ -46,4 +47,9 @@ Combats n Conversations
 ## Misc
 
 -   Status: Calamatus (Maximum UNP?)
+-
+
+# Initiative
+
+-   At start of combat, sort combatants by speed descending
 -
