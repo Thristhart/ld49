@@ -1,0 +1,104 @@
+.combatTeam {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.combatTeam.left {
+    grid-area: leftTeam;
+    margin-right: 1em;
+}
+.combatTeam.right {
+    grid-area: rightTeam;
+    margin-left: 1em;
+}
+
+.combatBox {
+    display: flex;
+    flex-direction: column;
+    font-family: "Varela Round", sans-serif;
+    font-size: var(--dialogue-font-size);
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 5em;
+    height: 5em;
+
+    margin-bottom: 1rem;
+}
+.combatBox.myTurn {
+    border: 2px solid white;
+}
+.combatBox.mainTarget {
+    outline: 4px solid cornflowerblue;
+}
+.combatBox.secondaryTarget {
+    outline: 4px solid blue;
+}
+
+.combatBox .combatName {
+    background-color: black;
+    color: white;
+    z-index: 2;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.7em;
+}
+
+.combatBox .hp {
+    color: white;
+    text-align: center;
+
+    z-index: 2;
+    background-color: black;
+    font-size: 0.7em;
+}
+.combatBox .hp:before {
+    content: "HP: ";
+}
+
+.combatBox:after {
+    content: "";
+    display: block;
+    image-rendering: pixelated;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.right .combatBox:after {
+    transform: scaleX(-1);
+}
+
+.combatBox.CrowPlayer:after {
+    background-image: url("../assets/crow_sit_caw_strip12.png");
+    background-size: 1200%;
+    top: -0.5em;
+}
+.combatBox.CrowPlayer.myTurn:after {
+    animation: twelveFrameAnimation 1s step-start;
+}
+
+.combatBox.CatPlayer:after {
+    background-image: url("../assets/cat_idle_blink_strip8.png");
+    background-size: 800%;
+    top: -0.5em;
+}
+
+.combatBox.CatPlayer.myTurn:after {
+    animation: eightFrameAnimation 1s step-start;
+}
+
+.combatBox.Beholder:after {
+    background-image: url("../assets/beholder_idle_strip4.png");
+    background-size: 400%;
+}
+.combatBox.Beholder.myTurn:after {
+    animation: fourFrameAnimation 600ms step-start;
+}

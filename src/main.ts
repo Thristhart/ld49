@@ -1,29 +1,22 @@
-import { render } from "@render";
+import { EntityMap } from "@rpg/entities";
+import { CatPlayer } from "@rpg/players/cat";
+import { CrowPlayer } from "@rpg/players/crow";
 import { continueStory } from "@story";
-import "@ui";
-import { renderUI } from "@ui";
+import { setupUI } from "@ui/ui";
 import "./style.css";
-
-const canvas = document.querySelector("canvas");
-if (!canvas) {
-    throw new Error("missing canvas somehow");
-}
-
-const setCanvasToWindowSize = () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-};
-
-window.addEventListener("resize", setCanvasToWindowSize);
-
-setCanvasToWindowSize();
 
 if (import.meta.hot) {
     import.meta.hot.accept();
 }
 
-requestAnimationFrame(render);
+function createPlayerEntities() {
+    const cat = new CatPlayer();
+    EntityMap.set(cat.id, cat);
+    const crow = new CrowPlayer();
+    EntityMap.set(crow.id, crow);
+}
 
-renderUI();
+createPlayerEntities();
+setupUI();
 
 continueStory();

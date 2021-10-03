@@ -1,0 +1,30 @@
+#ui .tooltip {
+    font-size: calc(var(--ui-scale-font-size) * 0.75);
+    font-family: "Varela Round", sans-serif;
+}
+#ui .tooltip.show {
+    opacity: 1;
+}
+
+.actionTooltip {
+    display: flex;
+    flex-direction: column;
+}
+.actionTooltip .rangeType {
+    display: block;
+    font-style: italic;
+}
+.actionTooltip .amount {
+    color: gold;
+    font-weight: bold;
+}
+.actionTooltip .damageDesc {
+    display: block;
+}
+
+.effectTitle.Chilled {
+    color: cornflowerblue;
+}
+.effectTitle.Freeze {
+    color: cornflowerblue;
+}

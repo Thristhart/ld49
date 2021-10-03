@@ -1,6 +1,8 @@
 import storyContent from "@ink/main.ink";
-import { renderUI } from "@ui";
+import { combats, endCombat, startCombat } from "@rpg/combat";
+import { renderUI } from "@ui/ui";
 import { Story } from "inkjs/engine/Story";
+import { BoolValue } from "inkjs/engine/Value";
 
 let story = new Story(storyContent);
 
@@ -88,23 +90,38 @@ export const getCurrentSpeakers = () => speakers;
 export const getCurrentChoices = () => currentChoices;
 
 export const continueStory = () => {
+    let didContinue = false;
     if (story.canContinue) {
         story.Continue();
         parseCurrentText();
-        renderUI();
+        didContinue = true;
     } else if (story.currentChoices.length > 0 && !currentChoices) {
         currentChoices = {
             type: "choices",
             choices: story.currentChoices.map((choice) => ({ ...getSpeaker(choice.text), index: choice.index })),
         };
-        renderUI();
+        didContinue = true;
     }
+    renderUI();
+    return didContinue;
 };
 export const selectChoice = (choiceIndex: number) => {
     story.ChooseChoiceIndex(choiceIndex);
     currentChoices = undefined;
     continueStory();
 };
+
+export const shouldShowDialog = () => (story.variablesState.GetVariableWithName("shouldShowDialog") as BoolValue).value;
+
+export const hideDialog = () => story.variablesState.SetGlobal("shouldShowDialog", new BoolValue(false));
+
+story.ObserveVariable("combat", (_, value: keyof typeof combats) => {
+    if (value === "none") {
+        endCombat();
+    } else {
+        startCombat(combats[value]);
+    }
+});
 
 if (import.meta.hot) {
     import.meta.hot.accept();

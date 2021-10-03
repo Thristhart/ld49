@@ -1,4 +1,7 @@
--> intro
+VAR shouldShowDialog = true
+VAR combat = "none"
+
+-> combatTest
 
 === intro ===
 Intro text, no speaker.
@@ -12,6 +15,8 @@ crow: Except me!
 * [banish the crow] -> nocrow
 * [invite the cat] -> addcat
 * [reject modernity, become monke] -> monkey
+* [choose violence] -> combatTest
+* -> END
 
 === nocrow ===
 #speaking:
@@ -24,4 +29,10 @@ cat: meow it's a real party!
 
 === monkey ===
 I don't have a monkey sprite, sorry.
+-> intro
+
+=== combatTest ===
+~ combat = "tutorial"
+crow: oh gosh please don't hurt me
+~ shouldShowDialog = false
 -> intro

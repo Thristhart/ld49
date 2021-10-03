@@ -1,0 +1,14 @@
+#ui {
+    grid-area: game;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    display: grid;
+    grid-template-areas:
+        "gameplay gameplay"
+        "gameplay gameplay"
+        "dialogue dialogue";
+
+    grid-template-rows: 1fr min-content;
+}

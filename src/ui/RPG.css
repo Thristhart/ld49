@@ -1,0 +1,10 @@
+#rpg {
+    display: grid;
+    grid-area: gameplay;
+    grid-template-areas:
+        "leftTeam initiative rightTeam"
+        "leftTeam actions rightTeam"
+        "leftTeam instability rightTeam";
+    grid-template-rows: min-content 1fr min-content;
+    grid-template-columns: min-content 1fr min-content;
+}

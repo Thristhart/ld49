@@ -4,20 +4,15 @@ import {
     getCurrentChoices,
     getCurrentSpeakers,
     selectChoice,
+    shouldShowDialog,
     Speaker,
     StoryBeat,
     StoryChoices,
     StoryMessage,
 } from "@story";
 import cx from "classnames";
-import { render } from "preact";
-import "./ui.css";
-
-const uiContainer = document.getElementById("ui")!;
-
-if (!uiContainer) {
-    throw new Error("missing required #ui element");
-}
+import React from "react";
+import "./Dialogue.css";
 
 function getSpeakerName(speaker: Speaker) {
     switch (speaker) {
@@ -35,15 +30,15 @@ const DialogueMessage = ({ storyMessage }: DialogueMessageProps) => {
     const currentChoices = getCurrentChoices();
 
     return (
-        <div class={cx("message", speaker, isNarration && "narration")}>
+        <div className={cx("message", speaker, isNarration && "narration")}>
             <Speakers />
             {currentChoices && <DialogueChoices storyChoices={currentChoices} />}
             {speaker !== Speaker.None && (
-                <span class={cx("speaker", speaker === currentSpeakers[1] && "speakertag-right")}>
+                <span className={cx("speaker", speaker === currentSpeakers[1] && "speakertag-right")}>
                     {getSpeakerName(speaker)}
                 </span>
             )}
-            <span class="messageText">{message}</span>
+            <span className="messageText">{message}</span>
         </div>
     );
 };
@@ -53,11 +48,11 @@ interface DialogueChoicesProps {
 }
 const DialogueChoices = ({ storyChoices }: DialogueChoicesProps) => {
     return (
-        <ul class="choices">
+        <ul className="choices">
             {storyChoices.choices.map(({ speaker, message, index }) => (
                 <li key={index}>
                     <button
-                        class={cx("choice", speaker)}
+                        className={cx("choice", speaker)}
                         onClick={(event) => {
                             selectChoice(index);
                             event.stopPropagation();
@@ -92,24 +87,23 @@ const Speakers = () => {
     );
 };
 
-const Dialogue = () => {
+export const Dialogue = () => {
+    const shouldShow = shouldShowDialog();
+    if (!shouldShow) {
+        return null;
+    }
     const storyBeat = getCurrentBeat();
 
     return (
-        <div id="dialogue" onClick={() => continueStory()}>
+        <div
+            id="dialogue"
+            onClick={(event) => {
+                const didContinue = continueStory();
+                if (didContinue) {
+                    event.preventDefault();
+                }
+            }}>
             <Beat storyBeat={storyBeat} />
         </div>
     );
 };
-
-const UI = () => {
-    return (
-        <>
-            <Dialogue />
-        </>
-    );
-};
-
-export function renderUI() {
-    render(<UI />, uiContainer);
-}
