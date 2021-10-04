@@ -61,6 +61,7 @@ const inferno: Action = {
 };
 
 export class CatPlayer extends Player {
+    public static realName = "CatPlayer";
     public id: string = "cat";
     public static actions = [iceKnife, wildMagic, inferno];
     public health = 30;

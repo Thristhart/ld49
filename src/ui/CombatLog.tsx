@@ -122,7 +122,7 @@ const Impact = ({ targetImpacts, templateString, combatLogEntry, actor, logIndex
                         return null;
                     }
                     const effectTemplate = parseTemplateString(
-                        joinList(impact.effects.map((effect) => `{${effect.name}}`))
+                        joinList(impact.effects.map((effect) => `{${effect.realName}}`))
                     );
                     return (
                         <React.Fragment key={index}>
@@ -132,7 +132,7 @@ const Impact = ({ targetImpacts, templateString, combatLogEntry, actor, logIndex
                                     return <React.Fragment key={index}>{effectTemplatePart}</React.Fragment>;
                                 }
                                 const effectName = match[1];
-                                const effect = impact.effects?.find((eff) => eff.name === effectName);
+                                const effect = impact.effects?.find((eff) => eff.realName === effectName);
                                 if (!effect) {
                                     return null;
                                 }

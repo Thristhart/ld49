@@ -262,12 +262,12 @@ export const ActionTooltip = ({ action, casterId }: ActionTooltipProps) => {
                 <span>
                     applies{" "}
                     {action.mainTargetImpact.effects.map((effect) => (
-                        <React.Fragment key={effect.name}>
+                        <React.Fragment key={effect.realName}>
                             <span
-                                className={`effectTitle ${effect.name}`}
+                                className={`effectTitle ${effect.realName}`}
                                 data-tip
-                                data-for={`${effect.name}Description`}>
-                                {effect.name}
+                                data-for={`${effect.realName}Description`}>
+                                {effect.realName}
                             </span>
                             <EffectTooltip effect={effect} />
                         </React.Fragment>
@@ -284,11 +284,11 @@ interface EffectTooltipProps {
     readonly extraId?: string;
 }
 export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
-    const id = `${effect.name}Description${extraId}`;
+    const id = `${effect.realName}Description${extraId}`;
     if (effect === Chilled) {
         return (
             <Tooltip id={id} className="effectTooltip">
-                <span className="effectTitle Chilled">{Chilled.name}</span>
+                <span className="effectTitle Chilled">Chilled</span>
                 <p>
                     Lowers Speed. At three stacks, applies{" "}
                     <span className="effectTitle Freeze" data-tip data-for={`FreezeDescription${extraId}`}>
@@ -302,7 +302,7 @@ export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
     if (effect === Freeze) {
         return (
             <Tooltip id={id} className="effectTooltip">
-                <span className="effectTitle Freeze">{Freeze.name}</span>
+                <span className="effectTitle Freeze">Freeze</span>
                 <p>They're frozen</p>
             </Tooltip>
         );
@@ -310,7 +310,7 @@ export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
     if (effect === Exposed) {
         return (
             <Tooltip id={id} className="effectTooltip">
-                <span className="effectTitle Exposed">{Exposed.name}</span>
+                <span className="effectTitle Exposed">Exposed</span>
                 <p>Reduces Sturdiness.</p>
             </Tooltip>
         );

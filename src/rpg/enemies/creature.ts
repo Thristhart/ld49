@@ -29,6 +29,7 @@ const frostyBreath: Action = {
 };
 
 export class Creature extends Entity {
+    public static realName = "Creature";
     portraitUrl = portait_url;
     health = 60;
     static actions = [bite, frostyBreath];

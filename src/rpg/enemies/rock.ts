@@ -14,6 +14,7 @@ const rest: Action = {
 };
 
 export class Rock extends Entity {
+    public static realName = "Rock";
     portraitUrl = portait_url;
     health = 10;
     static actions = [rest];

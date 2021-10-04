@@ -29,6 +29,7 @@ const beAGoodGirl: Action = {
 };
 
 export class Dog extends Entity {
+    public static realName = "Dog";
     portraitUrl = portait_url;
     health = 60;
     static actions = [slash, beAGoodGirl];

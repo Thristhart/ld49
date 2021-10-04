@@ -8,6 +8,7 @@ export class Effect extends Object {
     public magnitude: number = 0;
     public static triggers: typeof Trigger[] = [];
     public relevantStats: NumericEntityStat[] = [];
+    public static realName: string = "";
 
     addCount(amount: number = 1) {
         this.count += amount;

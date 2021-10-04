@@ -18,5 +18,5 @@ export function getEntityName(entity: Entity): string {
         return "Maxine";
     }
 
-    return entity.constructor.name;
+    return (entity.constructor as typeof Entity).realName;
 }

@@ -47,6 +47,7 @@ const healingAbility: Action = {
 };
 
 export class CrowPlayer extends Player {
+    public static realName = "CrowPlayer";
     public id: string = "crow";
     public portraitUrl = portrait_url;
     public health = 25;

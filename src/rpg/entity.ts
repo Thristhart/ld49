@@ -22,6 +22,8 @@ export abstract class Entity {
     public static actions: Action[] = [];
     public actionCooldowns = new Map<string, number>();
 
+    public static realName: string = "";
+
     constructor(_level: number) {}
 
     getModifiedStat(stat: NumericEntityStat): number {

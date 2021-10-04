@@ -78,6 +78,7 @@ const chloroform: Action = {
 };
 
 export class FoxPlayer extends Player {
+    public static realName = "FoxPlayer";
     public id: string = "fox";
     public portraitUrl = portrait_url;
     public health = 25;

@@ -18,6 +18,7 @@ const leer: Action = {
 };
 
 export class Beholder extends Entity {
+    public static realName = "Beholder";
     portraitUrl = portait_url;
     health = 10;
     static actions = [leer];

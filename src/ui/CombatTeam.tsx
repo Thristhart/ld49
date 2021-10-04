@@ -1,6 +1,7 @@
 import { useAction } from "@rpg/actions";
 import { currentCombat } from "@rpg/combat";
 import { EntityMap } from "@rpg/entities";
+import { Entity } from "@rpg/entity";
 import { getEntityName } from "@rpg/entityName";
 import { getCurrentTurn, nextTurn } from "@rpg/turns";
 import cx from "classnames";
@@ -40,7 +41,7 @@ const EntityCombatBox = ({ id, hoveringId, setHoveringId, side }: EntityCombatBo
             <li
                 className={cx(
                     "combatBox",
-                    entity.constructor.name,
+                    (entity.constructor as typeof Entity).realName,
                     currentTurn?.id === id && "myTurn",
                     isMainTarget && "mainTarget",
                     amITargeted && !isMainTarget && "secondaryTarget"
