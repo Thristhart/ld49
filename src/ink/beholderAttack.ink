@@ -17,6 +17,7 @@ crow: Stay back! Cassie, defend yourself!
 ~ combat = "beholderAttack"
 cat: Aaah!
 ~ shouldShowDialog = false
+Victory!
 crow: Are you okay, Cassie? It looked like those things hurt you pretty badly!
 cat: I'm okay, I think! Why did those things go after me?
 crow: I have a suspicion. Allow me to confirm it...
@@ -52,6 +53,7 @@ cat: Then let's get 'em!
 crow: Wait, hold on—
 crow: Well, I guess we're fighting now!
 ~ shouldShowDialog = false
+Victory!
 #bg:nightforest
 Night falls, and the pair find a clearing to rest in.
 cat: I'm just saying, if you were less grumpy all the time, I'm sure you'd have more bird friends!
@@ -92,6 +94,7 @@ dog: You?! How'd you think this was gonna go?
 dog: They're the ones the boss wants! Get 'em boys!
 ~ combat = "dogFight"
 ~ shouldShowDialog = false
+Victory!
 #speaking:cat,dog
 dog: Ok, fine, I get it. Y'all are powerful and wanna kill me. Go ahead, just make it quick if you don't mind.
 cat: That's not what we want!
