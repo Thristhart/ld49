@@ -21,6 +21,15 @@ body {
     background-image: url("./assets/forest.jpg");
     background-size: cover;
     background-position: center;
+
+    transition: background-image 600ms linear;
+}
+
+body[data-bg="forest"] {
+    background-image: url("./assets/forest.jpg");
+}
+body[data-bg="nightforest"] {
+    background-image: url("./assets/nightforest.jpg");
 }
 
 /** preload */

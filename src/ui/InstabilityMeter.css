@@ -39,6 +39,9 @@
 .instabilityBar {
     transition: width ease-in-out 300ms;
     height: 100%;
+    --instability-color-0: var(--color-target-1);
+    --instability-color-1: var(--color-target-2);
+    --instability-color-2: var(--color-target-3);
     background: radial-gradient(
         circle at top left,
         var(--instability-color-0),

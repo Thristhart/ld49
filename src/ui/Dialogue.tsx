@@ -1,3 +1,5 @@
+import nyaSound from "@assets/nya.mp3";
+import zSound from "@assets/z.mp3";
 import {
     continueStory,
     getCurrentBeat,
@@ -10,14 +12,175 @@ import {
     StoryChoices,
     StoryMessage,
 } from "@story";
+import { usePrevious } from "@util/usePrevious";
 import cx from "classnames";
+import { Howl } from "howler";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import "./Dialogue.css";
+import { renderUI } from "./ui";
 
 function getSpeakerName(speaker: Speaker) {
     switch (speaker) {
+        case Speaker.Cat:
+            return "Cassie";
+        case Speaker.Crow:
+            return "Wilfred";
         default:
             return speaker;
     }
+}
+
+function formatCharForDisplay(char: string) {
+    if (char === " ") {
+        return <>&nbsp;</>;
+    }
+    return char;
+}
+
+function isEndOfSentence(index: number, text: string) {
+    const char = text[index];
+    const nextChar = text[index + 1];
+    if (nextChar === " " || nextChar === undefined) {
+        switch (char) {
+            case ".":
+            case "!":
+            case "?":
+            case ",":
+            case '"':
+                return true;
+        }
+    }
+    return false;
+}
+
+function getDurationForCharacter(index: number, text: string) {
+    const char = text[index];
+    if (isEndOfSentence(index, text)) {
+        return 300;
+    }
+    switch (char) {
+        case " ":
+            return 60;
+        default:
+            return 30;
+    }
+}
+
+const basicSpeechSound = new Howl({
+    src: [zSound],
+});
+
+const catSpeechSound = new Howl({
+    src: [nyaSound],
+});
+
+interface SpeechConfig {
+    readonly baseRate: number;
+    readonly sound: Howl;
+}
+function getSpeechConfigForSpeaker(speaker: Speaker): SpeechConfig | null {
+    switch (speaker) {
+        case Speaker.None:
+            return null;
+        case Speaker.Cat:
+            return { baseRate: 0.9, sound: catSpeechSound };
+        case Speaker.Crow:
+            return { baseRate: 0.6, sound: basicSpeechSound };
+        case Speaker.Beholder:
+            return { baseRate: 0.2, sound: basicSpeechSound };
+    }
+}
+
+function playSoundForChar(char: string, speaker: Speaker, side: "left" | "right" | "none") {
+    if (!char || char === " ") {
+        return;
+    }
+    switch (char) {
+        case ".":
+        case "!":
+        case "?":
+        case ",":
+        case '"':
+            return;
+        default:
+            const speechConfig = getSpeechConfigForSpeaker(speaker);
+            if (!speechConfig) {
+                return;
+            }
+            speechConfig.sound.rate(speechConfig.baseRate + Math.random() * 0.1);
+            let x = 0;
+            if (side === "left") {
+                x = -0.5;
+            }
+            if (side === "right") {
+                x = 0.5;
+            }
+            speechConfig.sound.pos(x, 0.5, -0.5);
+            speechConfig.sound.play();
+            break;
+    }
+}
+
+let isAnimatingText = false;
+let shouldSkip = false;
+
+interface TypeWriterProps {
+    readonly text: string;
+    readonly skip: boolean;
+    readonly speaker: Speaker;
+    readonly side: "left" | "right" | "none";
+}
+function TypeWriter({ text, skip, speaker, side }: TypeWriterProps) {
+    const [visibleLetter, setVisibleLetter] = useState(0);
+    const words = useMemo(() => text.split(" "), [text]);
+
+    const prevText = usePrevious(text);
+    if (text !== prevText) {
+        setVisibleLetter(0);
+        playSoundForChar(text[0], speaker, side);
+    }
+
+    useEffect(() => {
+        let lastLetterTime: number;
+        const frame = (timestamp: number) => {
+            if (!lastLetterTime) {
+                lastLetterTime = timestamp;
+            }
+            if (skip || visibleLetter >= text.length) {
+                isAnimatingText = false;
+                return;
+            }
+            animationFrame = requestAnimationFrame(frame);
+            if (timestamp - lastLetterTime > getDurationForCharacter(visibleLetter, text)) {
+                lastLetterTime = timestamp;
+                playSoundForChar(text[visibleLetter + 1], speaker, side);
+                setVisibleLetter(visibleLetter + 1);
+            }
+        };
+        let animationFrame = requestAnimationFrame(frame);
+        isAnimatingText = true;
+        return () => cancelAnimationFrame(animationFrame);
+    }, [visibleLetter, skip]);
+
+    let charIndex = 0;
+    return (
+        <>
+            {words.map(
+                (word, wordIndex) =>
+                    ++charIndex && (
+                        <span key={wordIndex} className={wordIndex < words.length - 1 ? "addSpace" : undefined}>
+                            {word.split("").map((char, wordCharIndex) => (
+                                <span
+                                    className={!skip && visibleLetter < charIndex++ - 1 ? "hiddenCharacter" : undefined}
+                                    key={wordCharIndex}>
+                                    {formatCharForDisplay(char)}
+                                </span>
+                            ))}
+                        </span>
+                    )
+            )}
+        </>
+    );
 }
 
 interface DialogueMessageProps {
@@ -37,7 +200,14 @@ const DialogueMessage = ({ storyMessage }: DialogueMessageProps) => {
                     {getSpeakerName(speaker)}
                 </span>
             )}
-            <span className="messageText">{message}</span>
+            <span className="messageText">
+                <TypeWriter
+                    text={message}
+                    skip={shouldSkip}
+                    speaker={speaker}
+                    side={speaker === currentSpeakers[0] ? "left" : speaker === currentSpeakers[1] ? "right" : "none"}
+                />
+            </span>
         </div>
     );
 };
@@ -93,10 +263,13 @@ export const Dialogue = () => {
         <div
             className={getStoryDecoratorsClassName()}
             id="dialogue"
-            onClick={(event) => {
-                const didContinue = continueStory();
-                if (didContinue) {
-                    event.preventDefault();
+            onClick={() => {
+                if (isAnimatingText) {
+                    shouldSkip = true;
+                    renderUI();
+                } else {
+                    shouldSkip = false;
+                    continueStory();
                 }
             }}>
             <Beat storyBeat={storyBeat} />

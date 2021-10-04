@@ -27,7 +27,7 @@ export abstract class Entity {
     getModifiedStat(stat: NumericEntityStat): number {
         let relevantEffects = this.effects.filter((x) => x.effectsStat(stat));
         let statValue = this[stat];
-        relevantEffects.forEach((x) => (statValue += x.magnitude));
+        relevantEffects.forEach((x) => (statValue += x.magnitude * x.count));
         return statValue;
     }
 
@@ -35,6 +35,7 @@ export abstract class Entity {
         let existing = this.effects.find((x) => typeof x === typeof effect);
         if (existing !== undefined) {
             existing.addCount(effect.count);
+            existing.duration = effect.duration;
         } else {
             this.effects.push(effect);
         }
@@ -45,11 +46,11 @@ export abstract class Entity {
     }
 
     getPrecisionDamagePercentage() {
-        return (15 + this.precision) / 15;
+        return (15 + this.getModifiedStat("precision")) / 15;
     }
 
     getStrengthDamagePercentage() {
-        return (10 + this.strength) / 10;
+        return (10 + this.getModifiedStat("strength")) / 10;
     }
 
     calculateDamageThisDeals(amount: number, range: "melee" | "ranged"): number {
@@ -65,11 +66,25 @@ export abstract class Entity {
         this.health += amount;
     }
 
-    hurt(amount: number, range: "melee" | "ranged") {
-        amount *= Math.floor((20 - this.sturdiness) / 20);
+    getSturdinessDamageReductionPercentage() {
+        return (20 - this.getModifiedStat("sturdiness")) / 20;
+    }
+
+    getStrengthDamageReductionPercentage() {
+        return (30 - this.getModifiedStat("strength")) / 30;
+    }
+
+    calculateDamageToTake(amount: number, range: "melee" | "ranged") {
+        amount = amount * this.getSturdinessDamageReductionPercentage();
         if (range === "melee") {
-            amount *= Math.floor((30 - this.strength) / 30);
+            amount = this.getStrengthDamageReductionPercentage();
         }
+        amount = Math.floor(amount);
+        return amount;
+    }
+
+    hurt(amount: number, range: "melee" | "ranged") {
+        amount = this.calculateDamageToTake(amount, range);
         this.changeHealth(-amount);
         return amount;
     }

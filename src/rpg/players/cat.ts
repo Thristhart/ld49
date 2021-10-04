@@ -17,7 +17,7 @@ const iceKnife: Action = {
         filter: "enemy",
     },
     logTemplate: "{CASTER} uses {NAME} on {MAINTARGET} {IMPACT}.",
-    instabilityMod: 10,
+    instabilityMod: 12,
 };
 
 const wildMagic: Action = {

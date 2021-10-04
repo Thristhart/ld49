@@ -8,6 +8,6 @@ cat: This is awesome! Reality bends to my will!
 Some actions destabilize the fabric of reality. This influence is represented by the Instability bar above.
 ~ shouldShowDialog = false
 cat: Take that, rock!
-cat: I've got to show this to CROWNAME!
+cat: I've got to show this to Wilfred!
 
 -> beholderAttack

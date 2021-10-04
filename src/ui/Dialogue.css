@@ -50,6 +50,8 @@
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
+
+    flex-wrap: wrap;
 }
 
 #dialogue .speaker {
@@ -89,6 +91,7 @@
     top: -18em;
 
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
     z-index: -1;
 
     background-position: 0 0;
@@ -100,6 +103,10 @@
     background-size: 1200%;
     animation: twelveFrameAnimation 1s step-start;
     animation-delay: 300ms;
+}
+
+.crowHasKnife .speaker-portrait.crow {
+    background-image: url("../assets/crow_sit_caw_knife_strip12.png");
 }
 
 .catHasHat .speaker-portrait.cat {
@@ -235,4 +242,11 @@
     border: 2px solid black;
     border-radius: 0.5rem;
     margin-top: 1rem;
+}
+
+.hiddenCharacter {
+    visibility: hidden;
+}
+.addSpace:after {
+    content: "\00a0";
 }

@@ -1,7 +1,8 @@
 import { Entity, NumericEntityStat } from "./entity";
-import { FreezeTrigger, Trigger } from "./triggers";
+import { Trigger } from "./triggers";
+import { FreezeTrigger } from "./triggers/FreezeTrigger";
 
-export class Effect {
+export class Effect extends Object {
     public duration: number = 0;
     public count: number = 1;
     public baseMagnitude: number = 0;
@@ -17,41 +18,55 @@ export class Effect {
         return this.relevantStats.includes(stat);
     }
 
-    constructor(duration: number = 1, target: Entity, sourcePrecision: number) {
-        this.magnitude = this.calculateActualMagnitude(target, sourcePrecision);
-        this.duration = duration;
-    }
-
     calculateActualMagnitude(target: Entity, sourcePrecision: number): number {
         let sturdinessEffect = (30 - target.getModifiedStat("sturdiness")) / 30;
         let precisionEffect = (15 + sourcePrecision) / 15;
         let actualMagitude = Math.floor(this.baseMagnitude * sturdinessEffect * precisionEffect);
-        if (actualMagitude > 1) {
-            actualMagitude = 1;
-        }
+        this.magnitude = actualMagitude;
         return actualMagitude;
     }
 }
 
 export class Chilled extends Effect {
+    public duration: number = 3;
     public baseMagnitude: number = -2;
     public relevantStats: NumericEntityStat[] = ["speed"];
     public static triggers: Trigger[] = [new FreezeTrigger()];
 }
 
 export class Wild extends Effect {
+    public duration: number = 4;
     public baseMagnitude: number = 3;
     public relevantStats: NumericEntityStat[] = ["unpredictability"];
 }
 
-export class Freeze extends Effect {}
+export class Haste extends Effect {
+    public duration: number = 2;
+    public baseMagnitude: number = 2;
+    public relevantStats: NumericEntityStat[] = ["speed"];
+}
 
-if (import.meta.hot) {
-    import.meta.hot.accept();
+export class Exposed extends Effect {
+    public duration: number = 2;
+    public baseMagnitude: number = -3;
+    public relevantStats: NumericEntityStat[] = ["sturdiness"];
+}
+
+export class Drowsy extends Effect {
+    public duration: number = 4;
+    public baseMagnitude: number = -15;
+    public relevantStats: NumericEntityStat[] = ["strength", "precision"];
+}
+
+export class Freeze extends Effect {
+    public duration: number = 3;
 }
 
 export class Fatigued extends Effect {
     public baseMagnitude: number = -1;
     public relevantStats: NumericEntityStat[] = ["speed", "strength", "sturdiness"];
-    public static triggers: Trigger[] = [new FreezeTrigger()];
+}
+
+if (import.meta.hot) {
+    import.meta.hot.accept();
 }

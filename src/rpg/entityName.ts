@@ -4,10 +4,10 @@ import { CrowPlayer } from "./players/crow";
 
 export function getEntityName(entity: Entity): string {
     if (entity instanceof CatPlayer) {
-        return "Cat";
+        return "Cassie";
     }
     if (entity instanceof CrowPlayer) {
-        return "Crow";
+        return "Wilfred";
     }
 
     return entity.constructor.name;

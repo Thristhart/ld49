@@ -21,3 +21,10 @@ You can take the hits, you can take whatever else they throw at you, and anythin
 # Untiltability
 
 You're used to things going wrong.
+
+SPD
+STR
+PRE
+UNP
+SRD
+UTB

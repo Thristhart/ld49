@@ -46,6 +46,13 @@ const tickWaitTime = () => {
                 nextTurnEntity.actionCooldowns.set(actionId, cooldown);
             }
         });
+        nextTurnEntity.effects.forEach((effect) => {
+            const tickedDuration = effect.duration--;
+            if (tickedDuration <= 0) {
+                let effectIndex = nextTurnEntity.effects.indexOf(effect);
+                nextTurnEntity.effects.splice(effectIndex);
+            }
+        });
         if (currentCombat?.rightSide.includes(nextTurnEntity.id)) {
             setTimeout(() => {
                 nextTurnEntity.doTurn();

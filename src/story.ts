@@ -3,7 +3,7 @@ import { combats, endCombat, startCombat } from "@rpg/combat";
 import { renderUI } from "@ui/ui";
 import cx from "classnames";
 import { Story } from "inkjs/engine/Story";
-import { BoolValue } from "inkjs/engine/Value";
+import { BoolValue, StringValue } from "inkjs/engine/Value";
 
 let story = new Story(storyContent);
 
@@ -71,6 +71,10 @@ function parseCurrentText() {
                     .map((speaker) => (speaker === "" ? undefined : speaker));
                 speakers[0] = newSpeakers[0] as Speaker;
                 speakers[1] = newSpeakers[1] as Speaker;
+            }
+            if (tag.startsWith("bg:")) {
+                const newBg = tag.split("bg:")[1];
+                document.body.dataset.bg = newBg;
             }
         });
     }
@@ -154,3 +158,24 @@ if (import.meta.hot) {
         window.DEBUG_STORY = story;
     });
 }
+
+export function save() {
+    localStorage.setItem("save", story.state.ToJson());
+}
+export function load() {
+    const saveData = localStorage.getItem("save");
+    if (saveData) {
+        story.state.LoadJson(saveData);
+    }
+    const combat = story.variablesState.GetVariableWithName("combat");
+    if (combat instanceof StringValue) {
+        if (combat.value !== "none") {
+            startCombat(combat.value as keyof typeof combats);
+        }
+    }
+    renderUI();
+}
+//@ts-ignore
+window.DEBUG_SAVE = save;
+//@ts-ignore
+window.DEBUG_LOAD = load;

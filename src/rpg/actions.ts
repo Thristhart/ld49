@@ -36,11 +36,25 @@ const applyImpact = (action: Action, targetType: "mainTarget" | "secondaryTarget
     if (actionImpact?.damage) {
         const damage = caster.calculateDamageThisDeals(actionImpact.damage, action.range);
         const amountHurt = target.hurt(damage, action.range);
-        impactOnTarget = { ...impactOnTarget, impact: { ...impactOnTarget.impact, damage: amountHurt } };
+        impactOnTarget = {
+            ...impactOnTarget,
+            impact: {
+                ...impactOnTarget.impact,
+                damage: amountHurt,
+                casterPrecisionDamageMod: caster.getPrecisionDamagePercentage(),
+                casterStrengthDamageMod: caster.getStrengthDamagePercentage(),
+                targetStrengthResistanceMod: target.getStrengthDamageReductionPercentage(),
+                targetSturdinessResistanceMod: target.getSturdinessDamageReductionPercentage(),
+            },
+        };
     }
 
     if (actionImpact?.effects && actionImpact.effects.length > 0) {
-        actionImpact.effects.forEach(() => {});
+        actionImpact.effects.forEach((EffectClass) => {
+            const effect = new EffectClass();
+            effect.calculateActualMagnitude(target, caster.getModifiedStat("precision"));
+            target.afflict(effect);
+        });
         impactOnTarget = {
             ...impactOnTarget,
             impact: { ...impactOnTarget.impact, effects: [...actionImpact.effects] },

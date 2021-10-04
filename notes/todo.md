@@ -1,14 +1,23 @@
 # things to do to be system complete
 
 -   [x] combat log
--   [ ] enemies take turns
--   [ ] hover entities for stats
--   [ ] cooldowns
--   [ ] death
-    -   [ ] player death
-        -   [ ] losing
-    -   [ ] enemy death
-        -   [ ] end of combat
--   [ ] instability bar
--   [ ] instability effects
--   [ ] stat progression?
+-   [x] enemies take turns
+-   [x] hover entities for stats
+-   [x] cooldowns
+-   [x] death
+    -   [x] player death
+        -   [x] losing
+    -   [x] enemy death
+        -   [x] end of combat
+-   [x] instability bar
+-   [x] instability effects
+-   [ ] stat progression? - In the Dialogue system, packages on major events.
+-   [ ] show buffs on stat hover
+-   [ ] Buff/Debuff decay
+-   [ ] Apply triggers
+
+# requirements for shipping
+
+-   [ ] Title screen
+-   [ ] End screen (thanks for playing)
+-   [x] game title: Cassie's Hat

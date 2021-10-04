@@ -1,7 +1,9 @@
 import { Action } from "@rpg/actions";
-import { Chilled, Effect, Freeze } from "@rpg/effects";
+import { HistoricalActionImpact } from "@rpg/combat";
+import { Chilled, Effect, Exposed, Freeze } from "@rpg/effects";
 import { EntityMap } from "@rpg/entities";
 import { Entity } from "@rpg/entity";
+import { getEntityName } from "@rpg/entityName";
 import cx from "classnames";
 import React from "react";
 import ReactTooltip, { TooltipProps } from "react-tooltip";
@@ -47,10 +49,60 @@ const DamageBonus = ({ action, casterEntity, targetType }: DamageBonusProps) => 
     }
     return (
         <>
-            {" + "}
+            {bonus > 0 ? " + " : " - "}
             <span className="bonus">
-                {bonus}% from {statName}
+                {Math.abs(bonus)}% from {getEntityName(casterEntity)} {statName}
             </span>
+        </>
+    );
+};
+
+interface DamageReductionProps {
+    readonly action: Action;
+    readonly targetEntity: Entity;
+    readonly targetType: "mainTarget" | "secondaryTarget";
+    readonly historicalImpact: HistoricalActionImpact | undefined;
+}
+const DamageReduction = ({ action, targetEntity, historicalImpact, targetType }: DamageReductionProps) => {
+    const targetImpact = action[`${targetType}Impact`];
+    if (!targetImpact?.damage) {
+        return null;
+    }
+    const modifiedDamage = targetEntity.calculateDamageToTake(targetImpact.damage, action.range);
+    if (modifiedDamage === targetImpact.damage) {
+        return null;
+    }
+
+    const sturdyBonus = Math.round(
+        (historicalImpact?.targetSturdinessResistanceMod ?? targetEntity.getSturdinessDamageReductionPercentage()) *
+            100 -
+            100
+    );
+    let strengthBonus = 0;
+    if (action.range === "melee") {
+        strengthBonus = Math.round(
+            historicalImpact?.targetStrengthResistanceMod ??
+                targetEntity.getStrengthDamageReductionPercentage() * 100 - 100
+        );
+    }
+    return (
+        <>
+            {!!sturdyBonus && (
+                <>
+                    {sturdyBonus > 0 ? " + " : " - "}
+                    <span className="bonus">
+                        {Math.abs(sturdyBonus)}% from {getEntityName(targetEntity)} Sturdiness
+                    </span>
+                </>
+            )}
+            {!!strengthBonus && (
+                <>
+                    {strengthBonus > 0 ? " + " : " - "}
+                    <span className="bonus">
+                        {Math.abs(strengthBonus)}% from {getEntityName(targetEntity)} Strength
+                    </span>
+                </>
+            )}
         </>
     );
 };
@@ -59,12 +111,16 @@ interface DamageExplanationTooltipProps {
     readonly action: Action;
     readonly casterEntity: Entity;
     readonly targetType: "mainTarget" | "secondaryTarget";
+    readonly targetEntity?: Entity;
+    readonly historicalImpact?: HistoricalActionImpact;
     readonly extraId?: string;
 }
 export const DamageExplanationTooltip = ({
     action,
     casterEntity,
     targetType,
+    targetEntity,
+    historicalImpact,
     extraId = "",
 }: DamageExplanationTooltipProps) => {
     const targetImpact = action[`${targetType}Impact`];
@@ -76,6 +132,14 @@ export const DamageExplanationTooltip = ({
             {targetImpact.damage}
             {" base damage"}
             <DamageBonus action={action} casterEntity={casterEntity} targetType={targetType} />
+            {targetEntity && (
+                <DamageReduction
+                    action={action}
+                    targetEntity={targetEntity}
+                    targetType={targetType}
+                    historicalImpact={historicalImpact}
+                />
+            )}
         </Tooltip>
     );
 };
@@ -194,9 +258,10 @@ interface EffectTooltipProps {
     readonly extraId?: string;
 }
 export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
+    const id = `${effect.name}Description${extraId}`;
     if (effect === Chilled) {
         return (
-            <Tooltip id={`ChilledDescription${extraId}`} className="effectTooltip">
+            <Tooltip id={id} className="effectTooltip">
                 <span className="effectTitle Chilled">{Chilled.name}</span>
                 <p>
                     Lowers Speed. At three stacks, applies{" "}
@@ -210,9 +275,17 @@ export const EffectTooltip = ({ effect, extraId = "" }: EffectTooltipProps) => {
     }
     if (effect === Freeze) {
         return (
-            <Tooltip id={`FreezeDescription${extraId}`} className="effectTooltip">
+            <Tooltip id={id} className="effectTooltip">
                 <span className="effectTitle Freeze">{Freeze.name}</span>
                 <p>They're frozen</p>
+            </Tooltip>
+        );
+    }
+    if (effect === Exposed) {
+        return (
+            <Tooltip id={id} className="effectTooltip">
+                <span className="effectTitle Exposed">{Exposed.name}</span>
+                <p>Reduces Sturdiness.</p>
             </Tooltip>
         );
     }

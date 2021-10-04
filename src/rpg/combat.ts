@@ -1,6 +1,8 @@
+import { showDialog } from "@story";
 import { renderUI } from "@ui/ui";
 import { isTruthy } from "@util/isTruthy";
 import { Action, ActionImpact } from "./actions";
+import { Beholder } from "./enemies/beholder";
 import { Rock } from "./enemies/rock";
 import { EntityMap } from "./entities";
 import { Entity } from "./entity";
@@ -24,6 +26,11 @@ export const combats = {
     tutorial: makeCombat({
         leftSide: [CatPlayer],
         rightSide: [Rock],
+        playerLevel: 1,
+    }),
+    beholderAttack: makeCombat({
+        leftSide: [CatPlayer],
+        rightSide: [Beholder, Beholder, Beholder],
         playerLevel: 1,
     }),
 } as const;
@@ -120,9 +127,19 @@ export function checkForDeath() {
     }
 }
 
+export interface HistoricalActionImpact extends ActionImpact {
+    readonly casterStrengthDamageMod?: number;
+    readonly casterPrecisionDamageMod?: number;
+    readonly targetStrengthResistanceMod?: number;
+    readonly targetSturdinessResistanceMod?: number;
+    readonly unmodifiedDamage?: number;
+    readonly modifiedByCasterDamage?: number;
+    readonly modifiedByDefenseDamage?: number;
+}
+
 export interface TargetImpact {
     readonly targetId: string;
-    readonly impact: ActionImpact;
+    readonly impact: HistoricalActionImpact;
     readonly targetType: "mainTarget" | "secondaryTarget";
 }
 
@@ -139,3 +156,11 @@ export const combatLog: CombatLogItem[] = [];
 export const clearCombatLog = () => {
     combatLog.splice(0);
 };
+
+if (import.meta.env.DEV) {
+    //@ts-ignore
+    window.DEBUG_SKIP_COMBAT = () => {
+        endCombat();
+        showDialog();
+    };
+}

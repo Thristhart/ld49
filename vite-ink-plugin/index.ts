@@ -1,11 +1,10 @@
+import { exec } from "child_process";
+import { readFile, unlink } from "fs/promises";
+import path from "path";
+import util from "util";
 import { PluginOption } from "vite";
 
 const fileRegex = /\.(ink)$/;
-
-import util from "util";
-import { exec } from "child_process";
-import path from "path";
-import { readFile, unlink } from "fs/promises";
 
 const execPromise = util.promisify(exec);
 
@@ -30,7 +29,7 @@ export default function viteInkPlugin(): PluginOption {
 
                 return {
                     code: `export default ${jsonString};`,
-                    map: null, // provide source map if available
+                    map: null,
                 };
             }
             return undefined;

@@ -23,7 +23,7 @@ Combats n Conversations
         -   SPD = Acc + Eva + Cooldown Reduction + Initial Initiative
         -   STR = Melee Damage + Melee CD + Melee Resistance
         -   PRE(Precision) = ACC + Ranged Damage + Status Effectiveness increase.
-        -   UNP(Unpredictability) = Instability Table Bonus + Eva + Cooldown Reduction + Instability Gain Increase
+        -   UNP(Unpredictability) = Instability Table Bonus + Eva + Instability Gain Increase
         -   SRD(Sturdiness) = Instability Gain Reduction + Damage Reduction + Resistance to Debuffs
         -   UTB(Untiltability) = Instability Table Roll Manipulation + Instability Effect Multiplier + Status Effect Duration Reduction (Pos + Neg) (Multiplies duration by a percentage and then floors it)
 
@@ -53,3 +53,9 @@ Combats n Conversations
 
 -   At start of combat, sort combatants by speed descending
 -
+
+# Instability
+
+-   Thresholds at: 50 65 80 90 100
+-   Degrades by... 2 per turn?
+-   At those thresholds, trigger effect, variable penalty to number based on the Insta number?

@@ -38,6 +38,7 @@
 
     background-size: 100%;
     image-rendering: pixelated;
+    image-rendering: crisp-edges;
 
     border-radius: 50%;
     border: 2px solid white;

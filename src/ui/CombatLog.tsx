@@ -104,6 +104,8 @@ const Impact = ({ targetImpacts, templateString, combatLogEntry, actor, logIndex
                                 casterEntity={actor}
                                 extraId={`log${logIndex}`}
                                 targetType={targetType}
+                                targetEntity={target}
+                                historicalImpact={impact}
                             />
                         </React.Fragment>
                     );

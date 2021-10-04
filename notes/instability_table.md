@@ -4,3 +4,4 @@
 | 9-11  | Hurt yourself                     |
 | 20    | Immediately Go Again              |
 | 25    | Turn A Random Target Into a Horse |
+| 30    |                                   |
