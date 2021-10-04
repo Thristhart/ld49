@@ -86,7 +86,7 @@ fox: Shhh! Did you hear that?
 The sound of metal scraping on stone echoes through the cave.
 #speaking:fox,dog
 dog: C'mon you woke me from my damn slumber. Who's that rumbling around in Maxine's cave?
-Pierre takes his hat of and bows to the huge dog.
+Pierre takes his hat off and bows to the huge dog.
 fox: Maxine! It's lovely to see you again. My friends and I were hoping you would be so kind as to show us the way to your master.
 dog: You?! How'd you think this was gonna go?
 dog: They're the ones the boss wants! Get 'em boys!
