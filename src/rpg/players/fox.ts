@@ -1,4 +1,4 @@
-import portrait_url from "@assets/crow.png";
+import portrait_url from "@assets/fox.png";
 import { Action } from "@rpg/actions";
 import { combatLog, TargetImpact } from "@rpg/combat";
 import { Drowsy } from "@rpg/effects/drowsy";

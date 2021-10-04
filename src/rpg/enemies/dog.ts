@@ -1,4 +1,4 @@
-import portait_url from "@assets/creature.png";
+import portait_url from "@assets/dog.png";
 import { Action, useAction } from "@rpg/actions";
 import { currentCombat } from "@rpg/combat";
 import { Encouraged } from "@rpg/encouraged";
