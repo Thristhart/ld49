@@ -1,0 +1,137 @@
+#instabilityMeter {
+    grid-area: instability;
+    height: 4rem;
+    position: relative;
+    margin-bottom: 2em;
+    font-family: var(--ui-font-family);
+    font-size: var(--dialogue-font-size);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background-color: white;
+}
+#instabilityMeter.extreme {
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+}
+
+.instabilityLabel {
+    position: absolute;
+    bottom: -0.8em;
+    left: 0.7em;
+    color: white;
+    font-style: italic;
+    background-color: black;
+    padding-right: 1em;
+    padding-left: 1em;
+    border: 4px solid white;
+}
+.instabilityBarContainer {
+    border: 1px solid black;
+    height: 1.5em;
+    border-radius: 1em;
+    box-sizing: border-box;
+    width: calc(100% - 0.6em);
+    overflow: hidden;
+    background-color: rgb(104, 104, 104);
+}
+.instabilityBar {
+    transition: width ease-in-out 300ms;
+    height: 100%;
+    background: radial-gradient(
+        circle at top left,
+        var(--instability-color-0),
+        var(--instability-color-1),
+        var(--instability-color-2)
+    );
+    animation: colorMovement 4s ease-in infinite;
+    --color-target-1: blue;
+    --color-target-2: blue;
+    --color-target-3: blue;
+    --color-target-4: blue;
+    --color-target-5: blue;
+    --color-target-6: blue;
+    --color-target-7: blue;
+    transition: --instability-color-0 linear 2s, --instability-color-1 linear 2s, --instability-color-2 linear 2s;
+}
+.medium .instabilityBar {
+    --color-target-1: rgb(100, 0, 167);
+    --color-target-2: rgb(23, 38, 253);
+    --color-target-3: rgb(255, 0, 149);
+    --color-target-4: rgb(12, 78, 141);
+    --color-target-5: rgb(206, 119, 7);
+    --color-target-6: hsl(240deg, 100%, 45%);
+    --color-target-7: hsl(260deg, 100%, 55%);
+}
+.extreme .instabilityBar {
+    --color-target-1: hsl(1deg, 100%, 55%);
+    --color-target-2: hsl(25deg, 100%, 50%);
+    --color-target-3: hsl(40deg, 100%, 50%);
+    --color-target-4: hsl(130deg, 100%, 40%);
+    --color-target-5: hsl(230deg, 100%, 45%);
+    --color-target-6: hsl(240deg, 100%, 45%);
+    --color-target-7: hsl(260deg, 100%, 55%);
+}
+
+@keyframes colorMovement {
+    0%,
+    100% {
+        --instability-color-0: var(--color-target-1);
+        --instability-color-1: var(--color-target-2);
+        --instability-color-2: var(--color-target-3);
+    }
+
+    14.29% {
+        --instability-color-0: var(--color-target-2);
+        --instability-color-1: var(--color-target-3);
+        --instability-color-2: var(--color-target-4);
+    }
+    28.57% {
+        --instability-color-0: var(--color-target-3);
+        --instability-color-1: var(--color-target-4);
+        --instability-color-2: var(--color-target-5);
+    }
+    42.86% {
+        --instability-color-0: var(--color-target-4);
+        --instability-color-1: var(--color-target-5);
+        --instability-color-2: var(--color-target-6);
+    }
+    57.14% {
+        --instability-color-0: var(--color-target-5);
+        --instability-color-1: var(--color-target-6);
+        --instability-color-2: var(--color-target-7);
+    }
+    71.43% {
+        --instability-color-0: var(--color-target-6);
+        --instability-color-1: var(--color-target-7);
+        --instability-color-2: var(--color-target-1);
+    }
+    85.71% {
+        --instability-color-0: var(--color-target-7);
+        --instability-color-1: var(--color-target-1);
+        --instability-color-2: var(--color-target-2);
+    }
+}
+@keyframes shake {
+    10%,
+    90% {
+        transform: translateY(-0.5px);
+    }
+
+    20%,
+    80% {
+        transform: translateY(0.5px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateY(-1px);
+    }
+
+    40%,
+    60% {
+        transform: translateY(1px);
+    }
+}

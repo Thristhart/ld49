@@ -1,6 +1,7 @@
 import storyContent from "@ink/main.ink";
 import { combats, endCombat, startCombat } from "@rpg/combat";
 import { renderUI } from "@ui/ui";
+import cx from "classnames";
 import { Story } from "inkjs/engine/Story";
 import { BoolValue } from "inkjs/engine/Value";
 
@@ -15,6 +16,7 @@ export enum Speaker {
     None = "none",
     Crow = "crow",
     Cat = "cat",
+    Beholder = "beholder",
 }
 
 export interface StoryMessage {
@@ -111,15 +113,33 @@ export const selectChoice = (choiceIndex: number) => {
     continueStory();
 };
 
-export const shouldShowDialog = () => (story.variablesState.GetVariableWithName("shouldShowDialog") as BoolValue).value;
+export const shouldShowDialog = () => getStoryBool("shouldShowDialog");
 
-export const hideDialog = () => story.variablesState.SetGlobal("shouldShowDialog", new BoolValue(false));
+export const hideDialog = () => setStoryBool("shouldShowDialog", false);
+
+export const showDialog = () => setStoryBool("shouldShowDialog", true);
+
+export const setHasCastSpell = () => setStoryBool("hasCastSpell", true);
+export const getHasCastSpell = () => getStoryBool("hasCastSpell");
+
+export function getStoryBool(name: string) {
+    return (story.variablesState.GetVariableWithName(name) as BoolValue).value;
+}
+export function setStoryBool(name: string, value: boolean) {
+    story.variablesState.SetGlobal(name, new BoolValue(value));
+}
+
+function getDecoratorClass(name: string) {
+    return getStoryBool(name) && name;
+}
+
+export const getStoryDecoratorsClassName = () => cx(getDecoratorClass("catHasHat"), getDecoratorClass("crowHasKnife"));
 
 story.ObserveVariable("combat", (_, value: keyof typeof combats) => {
     if (value === "none") {
         endCombat();
     } else {
-        startCombat(combats[value]);
+        startCombat(value);
     }
 });
 

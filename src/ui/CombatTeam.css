@@ -7,6 +7,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-width: 7em;
 }
 .combatTeam.left {
     grid-area: leftTeam;
@@ -20,7 +21,7 @@
 .combatBox {
     display: flex;
     flex-direction: column;
-    font-family: "Varela Round", sans-serif;
+    font-family: var(--ui-font-family);
     font-size: var(--dialogue-font-size);
     position: relative;
     align-items: center;
@@ -90,6 +91,9 @@
     background-size: 800%;
     top: -0.5em;
 }
+.catHasHat .combatBox.CatPlayer:after {
+    background-image: url("../assets/cat_idle_hat_strip8.png");
+}
 
 .combatBox.CatPlayer.myTurn:after {
     animation: eightFrameAnimation 1s step-start;
@@ -101,4 +105,9 @@
 }
 .combatBox.Beholder.myTurn:after {
     animation: fourFrameAnimation 600ms step-start;
+}
+
+.combatBox.Rock:after {
+    background-image: url("../assets/rock.png");
+    background-size: 100%;
 }

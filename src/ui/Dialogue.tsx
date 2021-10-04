@@ -3,6 +3,7 @@ import {
     getCurrentBeat,
     getCurrentChoices,
     getCurrentSpeakers,
+    getStoryDecoratorsClassName,
     selectChoice,
     Speaker,
     StoryBeat,
@@ -10,7 +11,6 @@ import {
     StoryMessage,
 } from "@story";
 import cx from "classnames";
-import React from "react";
 import "./Dialogue.css";
 
 function getSpeakerName(speaker: Speaker) {
@@ -91,6 +91,7 @@ export const Dialogue = () => {
 
     return (
         <div
+            className={getStoryDecoratorsClassName()}
             id="dialogue"
             onClick={(event) => {
                 const didContinue = continueStory();

@@ -1,0 +1,24 @@
+.statTooltip {
+    display: flex;
+    flex-direction: column;
+}
+
+.statTooltip .name {
+    display: block;
+}
+
+.statTooltip .stat {
+    display: block;
+}
+
+.statTooltip .hp:before {
+    content: "HP: ";
+}
+
+.statTooltip .stats {
+    columns: 2;
+}
+
+.statTooltip .statName {
+    color: aquamarine;
+}

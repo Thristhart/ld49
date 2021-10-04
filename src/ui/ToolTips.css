@@ -1,14 +1,19 @@
 #ui .tooltip {
     font-size: calc(var(--ui-scale-font-size) * 0.75);
-    font-family: "Varela Round", sans-serif;
+    font-family: var(--ui-font-family);
+    pointer-events: none;
+    display: none;
 }
 #ui .tooltip.show {
     opacity: 1;
+    pointer-events: auto;
+    display: block;
 }
 
 .actionTooltip {
     display: flex;
     flex-direction: column;
+    text-align: start;
 }
 .actionTooltip .rangeType {
     display: block;
@@ -27,4 +32,24 @@
 }
 .effectTitle.Freeze {
     color: cornflowerblue;
+}
+
+#ui .tooltip.statDescriptionTooltip {
+    max-width: 20em;
+    font-size: calc(var(--ui-scale-font-size) * 0.5);
+}
+.statDescriptionTooltip .statTitle {
+    color: aquamarine;
+    text-transform: uppercase;
+}
+
+.waitTimeCost {
+    display: block;
+}
+.waitTimeNoun {
+    color: peachpuff;
+}
+
+#waitTimeCostExplainer {
+    max-width: 12em;
 }

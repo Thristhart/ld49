@@ -2,7 +2,7 @@ import { currentCombat } from "@rpg/combat";
 import { EntityMap } from "@rpg/entities";
 import { getTurns } from "@rpg/turns";
 import cx from "classnames";
-import React from "react";
+import { Tooltip } from "./ToolTips";
 import "./TurnTracker.css";
 
 interface InitiativeItemProps {
@@ -30,7 +30,9 @@ const TurnItem = ({ entityId, index }: InitiativeItemProps) => {
                     currentCombat?.rightSide.includes(entityId) && "isRight"
                 )}
             />
-            <span className="waitTime">{entity.waitTime}</span>
+            <span className="waitTime" data-tip data-for="waitTimeExplainer">
+                {entity.waitTime}
+            </span>
         </li>
     );
 };
@@ -51,7 +53,9 @@ export const TurnTracker = () => {
                     <TurnItem index={turns.indexOf(entityId)} entityId={entityId} key={entityId} />
                 ))}
             </ul>
-            <div id="currentTurnFrame" />
+            <Tooltip id="waitTimeExplainer">
+                The amount of time until the next turn. The combatant with the lowest current wait time will go first.
+            </Tooltip>
         </div>
     );
 };

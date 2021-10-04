@@ -1,16 +1,19 @@
 #dialogue {
-    grid-area: dialogue;
-    font-family: "Varela Round", sans-serif;
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    font-family: var(--dialogue-font-family);
     font-size: var(--dialogue-font-size);
     margin-bottom: 2rem;
     margin-left: 4rem;
     margin-right: 4rem;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     flex-direction: column;
     position: relative;
 
     z-index: 1;
+    animation: fadeIn 300ms ease-in;
 }
 
 #dialogue .message {
@@ -99,12 +102,24 @@
     animation-delay: 300ms;
 }
 
+.catHasHat .speaker-portrait.cat {
+    background-image: url("../assets/cat_idle_hat_strip8.png");
+}
 .speaker-portrait.cat {
     background-image: url("../assets/cat_idle_blink_strip8.png");
     background-size: 800%;
     animation: eightFrameAnimation 1s step-start;
     animation-delay: 300ms;
 }
+
+.speaker-portrait.beholder {
+    background-image: url("../assets/beholder_idle_strip4.png");
+    background-size: 400%;
+    animation: fourFrameAnimation 1s step-start;
+    animation-delay: 300ms;
+    transform: scale(-0.7, 0.7);
+}
+
 .left-speaker {
     left: -2em;
 }
@@ -214,7 +229,7 @@
 
 #dialogue .choice {
     font-size: var(--dialogue-font-size);
-    font-family: "Varela Round", sans-serif;
+    font-family: var(--dialogue-font-family);
     background-color: white;
     outline: 2px solid white;
     border: 2px solid black;

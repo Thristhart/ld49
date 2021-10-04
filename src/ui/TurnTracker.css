@@ -62,5 +62,11 @@
     text-align: center;
     display: block;
     font-size: calc(var(--ui-scale-font-size) * 0.75);
-    font-family: "Varela Round", sans-serif;
+    font-family: var(--ui-font-family);
+}
+#waitTimeExplainer {
+    font-size: calc(var(--ui-scale-font-size) * 0.5) !important;
+    max-width: 12em;
+    /* gross */
+    z-index: 1000;
 }

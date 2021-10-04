@@ -39,8 +39,19 @@ export class Chilled extends Effect {
     public static triggers: Trigger[] = [new FreezeTrigger()];
 }
 
+export class Wild extends Effect {
+    public baseMagnitude: number = 3;
+    public relevantStats: NumericEntityStat[] = ["unpredictability"];
+}
+
 export class Freeze extends Effect {}
 
 if (import.meta.hot) {
     import.meta.hot.accept();
+}
+
+export class Fatigued extends Effect {
+    public baseMagnitude: number = -1;
+    public relevantStats: NumericEntityStat[] = ["speed", "strength", "sturdiness"];
+    public static triggers: Trigger[] = [new FreezeTrigger()];
 }

@@ -10,7 +10,21 @@ body {
 
     --dialogue-font-size: clamp(0.5rem, 2.3vw, 32px);
     --ui-scale-font-size: clamp(2rem, 3vw, 48px);
+
+    --dialogue-font-family: "Varela Round", sans-serif;
+    --ui-font-family: "Montserrat", sans-serif;
+
     min-width: 640px;
 
     background-color: black;
+
+    background-image: url("./assets/forest.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+/** preload */
+body:after {
+    content: "";
+    background-image: url("./assets/cat_idle_hat_strip8.png") url("./assets/crow_sit_caw_knife_strip12.png");
 }

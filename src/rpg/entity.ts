@@ -19,6 +19,10 @@ export abstract class Entity {
     public effects: Effect[] = [];
     public abstract portraitUrl: string;
     public actions: Action[] = [];
+    public static actions: Action[] = [];
+    public actionCooldowns = new Map<string, number>();
+
+    constructor(level: number) {}
 
     getModifiedStat(stat: NumericEntityStat): number {
         let relevantEffects = this.effects.filter((x) => x.effectsStat(stat));
@@ -73,4 +77,6 @@ export abstract class Entity {
     heal(amount: number) {
         this.changeHealth(amount);
     }
+
+    abstract doTurn(): void;
 }
