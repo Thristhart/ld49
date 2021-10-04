@@ -26,7 +26,7 @@ export interface Action {
     readonly cooldown?: number;
     readonly instabilityMod?: number;
 
-    readonly onUse?: (action: Action, casterId: string, targetId: string) => void;
+    readonly overrideUse?: (action: Action, casterId: string, targetId: string) => void;
 }
 
 const applyImpact = (action: Action, targetType: "mainTarget" | "secondaryTarget", caster: Entity, target: Entity) => {
@@ -45,6 +45,16 @@ const applyImpact = (action: Action, targetType: "mainTarget" | "secondaryTarget
                 casterStrengthDamageMod: caster.getStrengthDamagePercentage(),
                 targetStrengthResistanceMod: target.getStrengthDamageReductionPercentage(),
                 targetSturdinessResistanceMod: target.getSturdinessDamageReductionPercentage(),
+            },
+        };
+    }
+    if (actionImpact?.healing) {
+        target.heal(actionImpact.healing);
+        impactOnTarget = {
+            ...impactOnTarget,
+            impact: {
+                ...impactOnTarget.impact,
+                healing: actionImpact.healing,
             },
         };
     }
@@ -81,8 +91,8 @@ export const useAction = (action: Action, casterId: string, targetId: string) =>
         caster.actionCooldowns.set(action.id, action.cooldown);
     }
 
-    if (action.onUse) {
-        action.onUse(action, casterId, targetId);
+    if (action.overrideUse) {
+        return action.overrideUse(action, casterId, targetId);
     }
 
     const secondaryTargetIds: string[] = [];

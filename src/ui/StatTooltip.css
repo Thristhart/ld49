@@ -22,3 +22,11 @@
 .statTooltip .statName {
     color: aquamarine;
 }
+
+.statTooltip .stat .buffed {
+    color: green;
+}
+
+.statTooltip .stat .debuffed {
+    color: crimson;
+}

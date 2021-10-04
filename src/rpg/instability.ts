@@ -1,4 +1,8 @@
 import { combatLog, instability } from "./combat";
+import { Chilled } from "./effects/chilled";
+import { Fiesty } from "./effects/fiesty";
+import { Haste } from "./effects/haste";
+import { Wild } from "./effects/wild";
 import { Entity } from "./entity";
 import { getEntityName } from "./entityName";
 import { Player } from "./player";
@@ -51,38 +55,104 @@ export class Hurt extends InstabilityEffect {
     }
 }
 
+export class FreeTurn extends InstabilityEffect {
+    public baseAmount: number = 2;
+
+    do() {
+        this.triggerer.waitTime = 0;
+        logInstability(`${getEntityName(this.triggerer)} gets to immediately go again!`);
+    }
+}
+
+export class SpurMagic extends InstabilityEffect {
+    public baseAmount: number = 2;
+
+    do() {
+        const effect = new Wild();
+        effect.calculateActualMagnitude(this.triggerer, 0);
+        this.triggerer.afflict(effect);
+        logInstability(`${getEntityName(this.triggerer)} has gained the effect Wild!`);
+    }
+}
+
+export class AfflictHaste extends InstabilityEffect {
+    public baseAmount: number = 2;
+
+    do() {
+        const effect = new Haste();
+        effect.calculateActualMagnitude(this.triggerer, 0);
+        this.triggerer.afflict(effect);
+        logInstability(`${getEntityName(this.triggerer)} has gained the effect Haste!`);
+    }
+}
+
+export class AfflictFiesty extends InstabilityEffect {
+    public baseAmount: number = 2;
+
+    do() {
+        const effect = new Fiesty();
+        effect.calculateActualMagnitude(this.triggerer, 0);
+        this.triggerer.afflict(effect);
+        logInstability(`${getEntityName(this.triggerer)} has gained the effect Fiesty!`);
+    }
+}
+
+export class AfflictChilled extends InstabilityEffect {
+    public baseAmount: number = 2;
+
+    do() {
+        const effect = new Chilled();
+        effect.calculateActualMagnitude(this.triggerer, 0);
+        this.triggerer.afflict(effect);
+        logInstability(`${getEntityName(this.triggerer)} has gained the effect Chilled!`);
+    }
+}
+
 const instabilityTable = {
-    0: Hurt,
-    1: Hurt,
-    2: Hurt,
-    3: Hurt,
-    4: Hurt,
-    5: Hurt,
-    6: Hurt,
-    7: Hurt,
-    8: Hurt,
+    0: SpurMagic,
+    1: SpurMagic,
+    2: SpurMagic,
+    3: SpurMagic,
+    4: SpurMagic,
+    5: SpurMagic,
+    6: SpurMagic,
+    7: SpurMagic,
+    8: SpurMagic,
     9: Hurt,
     10: Hurt,
     11: Hurt,
     12: Hurt,
     13: Hurt,
     14: Hurt,
-    15: Hurt,
-    16: Hurt,
-    17: Hurt,
-    18: Hurt,
-    19: Hurt,
-    20: Hurt,
-    21: Hurt,
-    22: Hurt,
-    23: Hurt,
-    24: Hurt,
-    25: Hurt,
-    26: Hurt,
-    27: Hurt,
-    28: Hurt,
-    29: Hurt,
-    30: Hurt,
+    15: AfflictChilled,
+    16: AfflictChilled,
+    17: AfflictChilled,
+    18: AfflictFiesty,
+    19: AfflictFiesty,
+    20: AfflictFiesty,
+    21: AfflictFiesty,
+    22: AfflictHaste,
+    23: AfflictHaste,
+    24: AfflictHaste,
+    25: AfflictHaste,
+    26: FreeTurn,
+    27: FreeTurn,
+    28: FreeTurn,
+    29: FreeTurn,
+    30: FreeTurn,
+    31: FreeTurn,
+    32: FreeTurn,
+    33: FreeTurn,
+    34: FreeTurn,
+    35: FreeTurn,
+    36: FreeTurn,
+    37: FreeTurn,
+    38: FreeTurn,
+    39: FreeTurn,
+    40: FreeTurn,
+    41: FreeTurn,
+    42: FreeTurn,
+    43: FreeTurn,
 };
 
 function isInTable(effectNumber: number): effectNumber is keyof typeof instabilityTable {

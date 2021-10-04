@@ -1,6 +1,8 @@
 import { renderUI } from "@ui/ui";
-import { combatState, currentCombat, getCombatants, instability, setInstability } from "./combat";
+import { combatLog, combatState, currentCombat, getCombatants, instability, setInstability } from "./combat";
+import { Freeze } from "./effects/freeze";
 import { EntityMap } from "./entities";
+import { getEntityName } from "./entityName";
 
 export const getTurns = () =>
     getCombatants()
@@ -53,12 +55,17 @@ const tickWaitTime = () => {
                 nextTurnEntity.effects.splice(effectIndex);
             }
         });
-        if (currentCombat?.rightSide.includes(nextTurnEntity.id)) {
-            setTimeout(() => {
-                nextTurnEntity.doTurn();
-                renderUI();
-                setTimeout(nextTurn, 700);
-            }, 300 + Math.random() * 500);
+        let isFrozen: boolean = !!nextTurnEntity.effects.find((x) => x instanceof Freeze);
+        if (!isFrozen) {
+            if (currentCombat?.rightSide.includes(nextTurnEntity.id)) {
+                setTimeout(() => {
+                    nextTurnEntity.doTurn();
+                    renderUI();
+                    setTimeout(nextTurn, 700);
+                }, 300 + Math.random() * 500);
+            }
+        } else {
+            combatLog.push(`${getEntityName(nextTurnEntity)} is frozen. It thaws slightly.`);
         }
     }
 };

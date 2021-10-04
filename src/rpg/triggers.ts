@@ -1,8 +1,12 @@
+import { Effect } from "./effects";
 import { Entity } from "./entity";
 
-export abstract class Trigger {
-    public abstract cause(target: Entity): boolean;
-    public abstract effect(target: Entity): void;
+export class Trigger {
+    public static cause(_target: Entity): boolean {
+        return false;
+    }
+    public static effect(_target: Entity): void {}
+    public static addsEffects: typeof Effect[] = [];
 }
 
 if (import.meta.hot) {

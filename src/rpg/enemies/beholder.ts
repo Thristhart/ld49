@@ -1,7 +1,7 @@
 import portait_url from "@assets/beholder.png";
 import { Action, useAction } from "@rpg/actions";
 import { currentCombat } from "@rpg/combat";
-import { Exposed } from "@rpg/effects";
+import { Exposed } from "@rpg/effects/exposed";
 import { Entity } from "../entity";
 
 const leer: Action = {
@@ -13,7 +13,7 @@ const leer: Action = {
         damage: 2,
         effects: [Exposed],
     },
-    targeting: { type: "all", filter: "enemy" },
+    targeting: { type: "single", filter: "enemy" },
     logTemplate: "{CASTER} leers at you, {IMPACT}.",
 };
 

@@ -22,7 +22,7 @@ export abstract class Entity {
     public static actions: Action[] = [];
     public actionCooldowns = new Map<string, number>();
 
-    constructor(level: number) {}
+    constructor(_level: number) {}
 
     getModifiedStat(stat: NumericEntityStat): number {
         let relevantEffects = this.effects.filter((x) => x.effectsStat(stat));
@@ -39,6 +39,11 @@ export abstract class Entity {
         } else {
             this.effects.push(effect);
         }
+        (effect.constructor as typeof Effect).triggers.forEach((trigger) => {
+            if (trigger.cause(this)) {
+                trigger.effect(this);
+            }
+        });
     }
 
     recover(effect: Effect) {

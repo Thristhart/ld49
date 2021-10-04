@@ -1,6 +1,8 @@
 import portrait_url_hat from "@assets/cat_with_hat.png";
 import { Action } from "@rpg/actions";
-import { Chilled, Wild } from "@rpg/effects";
+import { Chilled } from "@rpg/effects/chilled";
+import { Ignite } from "@rpg/effects/ignite";
+import { Wild } from "@rpg/effects/wild";
 import { Player } from "@rpg/player";
 
 const iceKnife: Action = {
@@ -37,9 +39,30 @@ const wildMagic: Action = {
     instabilityMod: 40,
 };
 
+const inferno: Action = {
+    id: "inferno",
+    name: "Inferno",
+    range: "ranged",
+    mainTargetImpact: {
+        damage: 1,
+        effects: [Ignite],
+    },
+    secondaryTargetImpact: {
+        damage: 1,
+        effects: [Ignite],
+    },
+    instabilityMod: 25,
+    logTemplate: "{CASTER} uses {NAME} on all enemies, {IMPACT}.",
+    waitTime: 4,
+    targeting: {
+        type: "all",
+        filter: "enemy",
+    },
+};
+
 export class CatPlayer extends Player {
     public id: string = "cat";
-    public static actions = [iceKnife, wildMagic];
+    public static actions = [iceKnife, wildMagic, inferno];
     public health = 30;
     public precision = 5;
     public portraitUrl = portrait_url_hat;

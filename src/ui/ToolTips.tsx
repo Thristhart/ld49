@@ -1,6 +1,9 @@
 import { Action } from "@rpg/actions";
 import { HistoricalActionImpact } from "@rpg/combat";
-import { Chilled, Effect, Exposed, Freeze } from "@rpg/effects";
+import { Effect } from "@rpg/effects";
+import { Chilled } from "@rpg/effects/chilled";
+import { Exposed } from "@rpg/effects/exposed";
+import { Freeze } from "@rpg/effects/freeze";
 import { EntityMap } from "@rpg/entities";
 import { Entity } from "@rpg/entity";
 import { getEntityName } from "@rpg/entityName";
@@ -173,6 +176,26 @@ function DamageAmount({ action, casterEntity, targetType, extraId = "" }: Damage
     );
 }
 
+interface HealingAmountProps {
+    readonly action: Action;
+    readonly casterEntity: Entity;
+    readonly targetType: "mainTarget" | "secondaryTarget";
+    readonly extraId?: string;
+}
+function HealingAmount({ action, targetType }: HealingAmountProps) {
+    const targetImpact = action[`${targetType}Impact`];
+    if (!targetImpact?.healing) {
+        return null;
+    }
+    return (
+        <>
+            <span className="damageDesc">
+                heals for <span className="amount">{targetImpact.healing}</span>
+            </span>
+        </>
+    );
+}
+
 function getTargetingDescription(targeting: Targeting): string {
     switch (targeting.type) {
         case "all": {
@@ -232,6 +255,9 @@ export const ActionTooltip = ({ action, casterId }: ActionTooltipProps) => {
                         <DamageAmount action={action} casterEntity={casterEntity} targetType={"secondaryTarget"} />
                     </>
                 )}
+            {action.mainTargetImpact.healing && (
+                <HealingAmount action={action} casterEntity={casterEntity} targetType={"mainTarget"} />
+            )}
             {action.mainTargetImpact.effects && (
                 <span>
                     applies{" "}

@@ -1,6 +1,7 @@
 import { EntityMap } from "@rpg/entities";
 import { Entity } from "@rpg/entity";
 import { getEntityName } from "@rpg/entityName";
+import cx from "classnames";
 import "./StatTooltip.css";
 import { Stat, Tooltip } from "./ToolTips";
 
@@ -11,10 +12,22 @@ interface StatLineProps {
     readonly entity: Entity;
 }
 const StatLine = ({ name, stat, ally, entity }: StatLineProps) => {
+    let baseStat = entity[stat];
+    let modifiedStat = entity.getModifiedStat(stat);
+    let buffed = false;
+    let debuffed = false;
+    if (baseStat !== modifiedStat) {
+        if (baseStat > modifiedStat) {
+            debuffed = true;
+        } else if (baseStat < modifiedStat) {
+            buffed = true;
+        }
+    }
+
     return (
         <span className="stat" data-tip data-for={`${stat}Description${ally ? "ally" : "enemy"}`}>
             <span className="statName">{name}: </span>
-            <span className="statValue">{entity[stat]}</span>
+            <span className={cx("statValue", buffed && "buffed", debuffed && "debuffed")}>{modifiedStat}</span>
         </span>
     );
 };

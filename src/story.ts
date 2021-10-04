@@ -17,6 +17,8 @@ export enum Speaker {
     Crow = "crow",
     Cat = "cat",
     Beholder = "beholder",
+    Fox = "fox",
+    Dog = "dog",
 }
 
 export interface StoryMessage {

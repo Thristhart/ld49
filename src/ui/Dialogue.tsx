@@ -25,6 +25,10 @@ function getSpeakerName(speaker: Speaker) {
             return "Cassie";
         case Speaker.Crow:
             return "Wilfred";
+        case Speaker.Fox:
+            return "Pierre";
+        case Speaker.Dog:
+            return "Maxine";
         default:
             return speaker;
     }
@@ -88,6 +92,10 @@ function getSpeechConfigForSpeaker(speaker: Speaker): SpeechConfig | null {
             return { baseRate: 0.6, sound: basicSpeechSound };
         case Speaker.Beholder:
             return { baseRate: 0.2, sound: basicSpeechSound };
+        case Speaker.Fox:
+            return { baseRate: 0.7, sound: basicSpeechSound };
+        case Speaker.Dog:
+            return { baseRate: 0.4, sound: basicSpeechSound };
     }
 }
 

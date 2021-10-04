@@ -110,6 +110,13 @@ const Impact = ({ targetImpacts, templateString, combatLogEntry, actor, logIndex
                         </React.Fragment>
                     );
                 }
+                if (templatePart === "{HEALING}") {
+                    return (
+                        <React.Fragment key={index}>
+                            <span className="damageAmount">{impact.healing}</span>
+                        </React.Fragment>
+                    );
+                }
                 if (templatePart === "{EFFECTS}") {
                     if (!impact.effects || impact.effects.length === 0) {
                         return null;

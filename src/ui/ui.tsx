@@ -15,6 +15,17 @@ let forceRender: () => void = () => {};
 const UI = () => {
     const [_, setRenderCounter] = useState(0);
     forceRender = () => setRenderCounter((val) => (val + 1) % 32);
+    const [isTitleScreen, setIsTitleScreen] = useState(true);
+
+    if (isTitleScreen) {
+        return (
+            <div id="titleScreen" onClick={() => setIsTitleScreen(false)}>
+                <span className="title1">CASSIE'S</span>
+                <div id="logo" />
+                <span className="title2">HAT</span>
+            </div>
+        );
+    }
     return (
         <>
             <RPG />

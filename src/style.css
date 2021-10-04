@@ -31,6 +31,9 @@ body[data-bg="forest"] {
 body[data-bg="nightforest"] {
     background-image: url("./assets/nightforest.jpg");
 }
+body[data-bg="cave"] {
+    background-image: url("./assets/cave.jpg");
+}
 
 /** preload */
 body:after {

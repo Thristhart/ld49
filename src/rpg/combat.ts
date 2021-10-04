@@ -3,11 +3,15 @@ import { renderUI } from "@ui/ui";
 import { isTruthy } from "@util/isTruthy";
 import { Action, ActionImpact } from "./actions";
 import { Beholder } from "./enemies/beholder";
+import { Creature } from "./enemies/creature";
+import { Dog } from "./enemies/dog";
 import { Rock } from "./enemies/rock";
 import { EntityMap } from "./entities";
 import { Entity } from "./entity";
 import { getEntityName } from "./entityName";
 import { CatPlayer } from "./players/cat";
+import { CrowPlayer } from "./players/crow";
+import { FoxPlayer } from "./players/fox";
 
 interface CombatDescription {
     readonly leftSide: typeof Entity[];
@@ -32,6 +36,16 @@ export const combats = {
         leftSide: [CatPlayer],
         rightSide: [Beholder, Beholder, Beholder],
         playerLevel: 1,
+    }),
+    creatures: makeCombat({
+        leftSide: [CatPlayer, CrowPlayer],
+        rightSide: [Beholder, Creature, Beholder],
+        playerLevel: 2,
+    }),
+    dogFight: makeCombat({
+        leftSide: [CatPlayer, CrowPlayer, FoxPlayer],
+        rightSide: [Creature, Dog],
+        playerLevel: 3,
     }),
 } as const;
 

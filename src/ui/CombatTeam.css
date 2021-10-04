@@ -108,6 +108,30 @@
     animation: fourFrameAnimation 600ms step-start;
 }
 
+.combatBox.Creature:after {
+    background-image: url("../assets/creature_idle_strip4.png");
+    background-size: 400%;
+}
+.combatBox.Creature.myTurn:after {
+    animation: fourFrameAnimation 600ms step-start;
+}
+
+.combatBox.fox:after {
+    background-image: url("../assets/fox_idle_strip8-sheet.png");
+    background-size: 800%;
+}
+.combatBox.fox.myTurn:after {
+    animation: eightFrameAnimation 600ms step-start;
+}
+
+.combatBox.dog:after {
+    background-image: url("../assets/dog_idle_strip8-sheet.png");
+    background-size: 800%;
+}
+.combatBox.dog.myTurn:after {
+    animation: eightFrameAnimation 600ms step-start;
+}
+
 .combatBox.Rock:after {
     background-image: url("../assets/rock.png");
     background-size: 100%;

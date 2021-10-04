@@ -127,6 +127,19 @@
     transform: scale(-0.7, 0.7);
 }
 
+.speaker-portrait.fox {
+    background-image: url("../assets/fox_idle_strip8-sheet.png");
+    background-size: 800%;
+    animation: eightFrameAnimation 1s step-start;
+    animation-delay: 300ms;
+}
+.speaker-portrait.dog {
+    background-image: url("../assets/dog_idle_strip8-sheet.png");
+    background-size: 800%;
+    animation: eightFrameAnimation 1s step-start;
+    animation-delay: 300ms;
+}
+
 .left-speaker {
     left: -2em;
 }
