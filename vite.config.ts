@@ -14,6 +14,8 @@ export default defineConfig(({ command, mode }) => {
             plugins: [tsconfigPaths(), viteInkPlugin(), preact()],
         };
     } else {
-        return {};
+        return {
+            plugins: [tsconfigPaths(), viteInkPlugin(), preact()],
+        };
     }
 });

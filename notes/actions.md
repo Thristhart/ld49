@@ -52,13 +52,14 @@ Heal a target, then hurt the target below them, repeats until it has effected ev
 ## Fox Rogue
 
 _Plunge_
-Deal damage to 1 enemy equal to ((Your Speed - Their Speed) / 3)
+Deal damage to an enemy equal to ((Your Speed - Their Speed) / 3)
 
 _Lubricate_
 Apply [Oiled] to an enemy.
 
 _Chloroform_
 Applies the debuff: [Drowsy] (Massive Penalty to STR and PER)
+(Cooldown: 3 turns)
 
 # Progression
 

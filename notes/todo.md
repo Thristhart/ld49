@@ -18,6 +18,6 @@
 
 # requirements for shipping
 
--   [ ] Title screen
+-   [x] Title screen
 -   [ ] End screen (thanks for playing)
 -   [x] game title: Cassie's Hat
