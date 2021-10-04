@@ -25,7 +25,7 @@ const beAGoodGirl: Action = {
         effects: [Encouraged],
     },
     targeting: { type: "single", filter: "ally" },
-    logTemplate: "{CASTER}'s uses {NAME} and is encouraged by her teammates, {IMPACT}.",
+    logTemplate: "{CASTER} uses {NAME} and is encouraged by her teammates, {IMPACT}.",
 };
 
 export class Dog extends Entity {

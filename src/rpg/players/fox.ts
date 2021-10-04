@@ -36,7 +36,7 @@ const plunge: Action = {
     mainTargetImpact: {
         damage: 0,
     },
-    logTemplate: "{CASTER} uses {NAME} on all enemies, {IMPACT}.",
+    logTemplate: "{CASTER} uses {NAME} on {MAINTARGET}, {IMPACT}.",
     waitTime: 3,
     targeting: {
         type: "single",
@@ -82,5 +82,6 @@ export class FoxPlayer extends Player {
     public id: string = "fox";
     public portraitUrl = portrait_url;
     public health = 25;
+    public speed = 5;
     public static actions = [plunge, lubricate, chloroform];
 }
